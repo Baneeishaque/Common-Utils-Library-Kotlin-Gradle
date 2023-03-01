@@ -4,15 +4,15 @@ import io.github.cdimascio.dotenv.Dotenv
 import java.lang.IllegalArgumentException
 import java.lang.NumberFormatException
 
-internal open class EnvironmentVariableForAny<T>(val isAvailable: Boolean, val value: T? = null)
-internal class EnvironmentVariableForWholeNumber(isAvailable: Boolean, value: UInt? = null) :
+open class EnvironmentVariableForAny<T>(val isAvailable: Boolean, val value: T? = null)
+class EnvironmentVariableForWholeNumber(isAvailable: Boolean, value: UInt? = null) :
     EnvironmentVariableForAny<UInt>(isAvailable, value)
 
-internal class EnvironmentVariableForBoolean(isAvailable: Boolean, value: Boolean? = null) :
+class EnvironmentVariableForBoolean(isAvailable: Boolean, value: Boolean? = null) :
     EnvironmentVariableForAny<Boolean>(isAvailable, value)
 
 object EnvironmentFileOperations {
-    internal fun getEnvironmentVariableValueForTextWithDefaultValue(
+    fun getEnvironmentVariableValueForTextWithDefaultValue(
 
         dotenv: Dotenv,
         environmentVariableName: String,
@@ -20,7 +20,7 @@ object EnvironmentFileOperations {
 
     ): String = (dotenv[environmentVariableName] ?: defaultValue).trim('\'')
 
-    internal fun getEnvironmentVariableValueForWholeNumberWithDefaultValue(
+    fun getEnvironmentVariableValueForWholeNumberWithDefaultValue(
 
         dotenv: Dotenv,
         environmentVariableName: String,
@@ -48,7 +48,7 @@ object EnvironmentFileOperations {
         }
     }
 
-    internal fun getEnvironmentVariableValueForBooleanWithDefaultValue(
+    fun getEnvironmentVariableValueForBooleanWithDefaultValue(
 
         dotenv: Dotenv,
         environmentVariableName: String,
@@ -76,7 +76,7 @@ object EnvironmentFileOperations {
         }
     }
 
-    internal fun getEnvironmentVariableValueForWholeNumber(
+    fun getEnvironmentVariableValueForWholeNumber(
 
         dotenv: Dotenv,
         environmentVariableName: String,
@@ -104,7 +104,7 @@ object EnvironmentFileOperations {
         }
     }
 
-    internal fun isEnvironmentVariablesAreAvailable(environmentVariables: List<EnvironmentVariableForAny<*>>): Boolean {
+    fun isEnvironmentVariablesAreAvailable(environmentVariables: List<EnvironmentVariableForAny<*>>): Boolean {
 
         return environmentVariables.all { it.isAvailable }
     }

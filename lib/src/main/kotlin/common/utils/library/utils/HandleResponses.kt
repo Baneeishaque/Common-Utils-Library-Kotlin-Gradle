@@ -5,7 +5,7 @@ import common.utils.library.models.IsOkModel
 object HandleResponses {
 
     @JvmStatic
-    internal fun <T> isOkModelHandler(
+    fun <T> isOkModelHandler(
 
         isOkModel: IsOkModel<*>,
         data: T,
