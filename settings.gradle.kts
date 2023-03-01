@@ -1,2 +1,2 @@
 rootProject.name = "Common-Utils-Library"
-include("lib")
+include(":common-lib")
