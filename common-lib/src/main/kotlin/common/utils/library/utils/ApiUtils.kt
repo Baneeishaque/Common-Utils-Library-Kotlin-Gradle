@@ -1,6 +1,9 @@
 package common.utils.library.utils
 
+import common.utils.library.models.CommonDataModel
 import common.utils.library.models.IsOkModel
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.Json
 
 object ApiUtils {
 
@@ -172,5 +175,27 @@ object ApiUtils {
             data = data,
             dateSpecification = "Server Execution Error"
         )
+    }
+
+    @JvmStatic
+    fun printErrorMessageForApi(
+        errorMessage: String
+    ) {
+        print(
+            Json.encodeToString(
+                serializer = CommonDataModel.serializer(Unit.serializer()),
+                value = CommonDataModel(
+                    status = 1,
+                    error = errorMessage
+                )
+            )
+        )
+    }
+
+    @JvmStatic
+    fun printMissingArgumentMessageForApi(
+        argumentSummary: String
+    ) {
+        printErrorMessageForApi(errorMessage = "Missing $argumentSummary in command line arguments & environment file")
     }
 }
