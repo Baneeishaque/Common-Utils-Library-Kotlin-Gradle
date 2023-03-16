@@ -27,6 +27,10 @@ object MysqlUtilsInteractive {
     @JvmStatic
     fun printDateErrorMessage(data: String) {
 
-        printErrorMessage(data = data, dateSpecification = "Date")
+        printErrorMessage(
+
+            data = data,
+            dateSpecification = "Date"
+        )
     }
 }
