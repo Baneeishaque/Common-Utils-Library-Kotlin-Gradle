@@ -16,12 +16,11 @@ object MysqlUtilsInteractive {
 
         return dateTimeTextConversion(
 
-            inputDateTimeText = inputDateTimeText,
             dateTimeTextConversionFunction = dateTimeTextConversionFunction,
             dateTimeTextConversionFunctionFailureActions = {
 
                 printDateErrorMessage(inputDateTimeText)
-            }
+            },
         )
     }
 

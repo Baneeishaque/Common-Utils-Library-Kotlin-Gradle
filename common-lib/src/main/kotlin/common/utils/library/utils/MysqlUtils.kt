@@ -79,7 +79,6 @@ object MysqlUtils {
     @JvmStatic
     fun dateTimeTextConversion(
 
-        inputDateTimeText: String,
         dateTimeTextConversionFunction: () -> IsOkModel<String>,
         dateTimeTextConversionFunctionFailureActions: () -> Unit = {}
 
