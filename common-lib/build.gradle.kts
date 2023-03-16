@@ -23,6 +23,7 @@ dependencies {
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
+    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.5")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
