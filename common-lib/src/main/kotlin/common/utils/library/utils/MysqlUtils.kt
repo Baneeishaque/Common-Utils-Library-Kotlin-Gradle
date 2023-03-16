@@ -77,9 +77,11 @@ object MysqlUtils {
     }
 
     @JvmStatic
-    fun dateTimeTextConversionWithMessage(
+    fun dateTimeTextConversion(
 
-        dateTimeTextConversionFunction: () -> IsOkModel<String>
+        inputDateTimeText: String,
+        dateTimeTextConversionFunction: () -> IsOkModel<String>,
+        dateTimeTextConversionFunctionFailureActions: () -> Unit = {}
 
     ): IsOkModel<String> {
 
@@ -90,7 +92,7 @@ object MysqlUtils {
 
         } else {
 
-            println("Date Error : ${dateTimeConversionResult.data!!}")
+            dateTimeTextConversionFunctionFailureActions.invoke()
         }
         return IsOkModel(isOK = false)
     }
