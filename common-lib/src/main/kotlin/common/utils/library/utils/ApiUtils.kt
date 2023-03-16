@@ -193,9 +193,90 @@ object ApiUtils {
     }
 
     @JvmStatic
+    fun printErrorMessageForApi() {
+        print(
+            Json.encodeToString(
+                serializer = CommonDataModel.serializer(Unit.serializer()),
+                value = CommonDataModel(
+                    status = 1
+                )
+            )
+        )
+    }
+
+    @JvmStatic
+    fun printSuccessMessageForApi() {
+        print(
+            Json.encodeToString(
+                serializer = CommonDataModel.serializer(Unit.serializer()),
+                value = CommonDataModel(
+                    status = 0
+                )
+            )
+        )
+    }
+
+    @JvmStatic
     fun printMissingArgumentMessageForApi(
-        argumentSummary: String
+
+        argumentSummary: String,
+        searchedInEnvironmentFile: Boolean = true
     ) {
-        printErrorMessageForApi(errorMessage = "Missing $argumentSummary in command line arguments & environment file")
+        if (searchedInEnvironmentFile) {
+
+            printErrorMessageForApi(errorMessage = "Missing $argumentSummary in command line arguments & environment file")
+
+        } else {
+
+            printErrorMessageForApi(errorMessage = "Missing $argumentSummary in command line arguments")
+        }
+    }
+
+    @JvmStatic
+    fun printInvalidArgumentValueMessageForApi(
+
+        argumentSummary: String,
+        searchedInEnvironmentFile: Boolean = true
+    ) {
+        if (searchedInEnvironmentFile) {
+
+            printErrorMessageForApi(errorMessage = "Invalid $argumentSummary value in command line arguments & environment file")
+
+        } else {
+
+            printErrorMessageForApi(errorMessage = "Invalid $argumentSummary value in command line arguments")
+        }
+    }
+
+    @JvmStatic
+    fun printNegativeNumberArgumentValueMessageForApi(
+
+        argumentSummary: String,
+        searchedInEnvironmentFile: Boolean = true,
+        numberType: String = "Integer"
+    ) {
+        if (searchedInEnvironmentFile) {
+
+            printErrorMessageForApi(errorMessage = "$argumentSummary Must be Positive $numberType - in command line arguments & environment file")
+
+        } else {
+
+            printErrorMessageForApi(errorMessage = "$argumentSummary Must be Positive $numberType - in command line arguments")
+        }
+    }
+
+    @JvmStatic
+    fun printNegativeDoubleArgumentValueMessageForApi(
+
+        argumentSummary: String,
+        searchedInEnvironmentFile: Boolean = true,
+    ) {
+
+        printNegativeNumberArgumentValueMessageForApi(
+
+            argumentSummary = argumentSummary,
+            searchedInEnvironmentFile = searchedInEnvironmentFile,
+            numberType = "Double"
+        )
     }
 }

@@ -9,7 +9,10 @@ import java.time.format.DateTimeParseException
 object DateTimeUtils {
 
     @JvmStatic
-    val normalDateTimePattern: DateTimeFormatter = ofPattern("dd/MM/yyyy HH:mm:ss")!!
+    val normalDateTimePatternAsText = "dd/MM/yyyy HH:mm:ss"
+
+    @JvmStatic
+    val normalDateTimePattern: DateTimeFormatter = ofPattern(normalDateTimePatternAsText)!!
 
     @JvmStatic
     val normalDatePattern: DateTimeFormatter = ofPattern("dd/MM/yyyy")!!
@@ -265,11 +268,34 @@ object DateTimeUtils {
 
         normalDateTimeText: String,
         conversionSuccessActions: () -> Unit = fun() {},
+        conversionFailureActions: (DateTimeParseException) -> Unit = fun(_) {}
+
+    ): IsOkModel<LocalDateTime> {
+
+        return dateTimeTextToDateTime(
+
+            dateTimeText = normalDateTimeText,
+            dateTimeTextPattern = normalDateTimePattern,
+            conversionSuccessActions = conversionSuccessActions,
+            conversionFailureActions = conversionFailureActions
+        )
+    }
+
+    fun normalDateTimeTextToDateTimeInteractive(
+
+        normalDateTimeText: String,
+        conversionSuccessActions: () -> Unit = fun() {},
         conversionFailureActions: () -> Unit = fun() {}
 
     ): IsOkModel<LocalDateTime> {
 
-        return dateTimeTextToDateTime(dateTimeText = normalDateTimeText, dateTimeTextPattern = normalDateTimePattern)
+        return dateTimeTextToDateTimeInteractive(
+
+            dateTimeText = normalDateTimeText,
+            dateTimeTextPattern = normalDateTimePattern,
+            conversionSuccessActions = conversionSuccessActions,
+            conversionFailureActions = conversionFailureActions
+        )
     }
 
     fun dateTimeTextToDateTime(
@@ -277,7 +303,7 @@ object DateTimeUtils {
         dateTimeText: String,
         dateTimeTextPattern: DateTimeFormatter,
         conversionSuccessActions: () -> Unit = fun() {},
-        conversionFailureActions: () -> Unit = fun() {}
+        conversionFailureActions: (DateTimeParseException) -> Unit = fun(_: DateTimeParseException) {}
 
     ): IsOkModel<LocalDateTime> {
 
@@ -287,11 +313,33 @@ object DateTimeUtils {
             conversionSuccessActions.invoke()
             IsOkModel(isOK = true, data = result)
 
-        } catch (e: DateTimeParseException) {
+        } catch (dateTimeParseException: DateTimeParseException) {
 
-            println("Date Error : ${e.localizedMessage}")
-            conversionFailureActions.invoke()
+            conversionFailureActions.invoke(dateTimeParseException)
             IsOkModel(isOK = false)
         }
+    }
+
+    @JvmStatic
+    fun dateTimeTextToDateTimeInteractive(
+
+        dateTimeText: String,
+        dateTimeTextPattern: DateTimeFormatter,
+        conversionSuccessActions: () -> Unit = fun() {},
+        conversionFailureActions: () -> Unit = fun() {}
+
+    ): IsOkModel<LocalDateTime> {
+
+        return dateTimeTextToDateTime(
+
+            dateTimeText,
+            dateTimeTextPattern,
+            conversionSuccessActions,
+            fun(dateTimeParseException) {
+
+                println("Date Error : ${dateTimeParseException.localizedMessage}")
+                conversionFailureActions.invoke()
+            },
+        )
     }
 }
