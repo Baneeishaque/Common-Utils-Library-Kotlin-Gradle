@@ -163,4 +163,14 @@ object ApiUtils {
             apiSuccessActions.invoke()
         }
     }
+
+    @JvmStatic
+    fun printServerExecutionErrorMessage(data: String) {
+
+        InteractiveUtils.printErrorMessage(
+
+            data = data,
+            dateSpecification = "Server Execution Error"
+        )
+    }
 }
