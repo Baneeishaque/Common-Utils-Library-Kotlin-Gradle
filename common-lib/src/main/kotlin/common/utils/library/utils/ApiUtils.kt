@@ -1,5 +1,6 @@
 package common.utils.library.utils
 
+import common.utils.library.constants.Constants
 import common.utils.library.models.CommonDataModel
 import common.utils.library.models.IsOkModel
 import kotlinx.serialization.builtins.serializer
@@ -39,7 +40,7 @@ object ApiUtils {
             println("Error : ${(apiResponse.exceptionOrNull() as Exception).localizedMessage}")
             do {
                 print("Retry (Y/N) ? : ")
-                when (readLine()!!) {
+                when (readln()) {
                     "Y", "" -> {
                         return makeApiRequestWithOptionalRetries(
 
@@ -278,5 +279,11 @@ object ApiUtils {
             searchedInEnvironmentFile = searchedInEnvironmentFile,
             numberType = "Double"
         )
+    }
+
+    @JvmStatic
+    fun printNotImplementedMessageForApi() {
+
+        printErrorMessageForApi(errorMessage = Constants.notImplementedMessage)
     }
 }

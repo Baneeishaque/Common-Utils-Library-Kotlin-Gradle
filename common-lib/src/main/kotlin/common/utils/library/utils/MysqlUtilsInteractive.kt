@@ -2,7 +2,6 @@ package common.utils.library.utils
 
 import common.utils.library.models.IsOkModel
 import common.utils.library.utils.InteractiveUtils.printErrorMessage
-import common.utils.library.utils.MysqlUtils.dateTimeTextConversion
 
 object MysqlUtilsInteractive {
 
@@ -10,16 +9,18 @@ object MysqlUtilsInteractive {
     fun dateTimeTextConversionWithMessage(
 
         inputDateTimeText: String,
-        dateTimeTextConversionFunction: () -> IsOkModel<String>
+        dateTimeTextConversionFunction: () -> IsOkModel<String>,
+        dateTimeTextConversionFunctionFailureActions: () -> Unit = {}
 
     ): IsOkModel<String> {
 
-        return dateTimeTextConversion(
+        return MysqlUtils.dateTimeTextConversion(
 
             dateTimeTextConversionFunction = dateTimeTextConversionFunction,
             dateTimeTextConversionFunctionFailureActions = {
 
                 printDateErrorMessage(inputDateTimeText)
+                dateTimeTextConversionFunctionFailureActions.invoke()
             },
         )
     }

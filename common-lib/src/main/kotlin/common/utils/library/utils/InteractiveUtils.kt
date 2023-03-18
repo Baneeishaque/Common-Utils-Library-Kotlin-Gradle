@@ -10,4 +10,10 @@ object InteractiveUtils {
 
         println("$dateSpecification Error : $data")
     }
+
+    @JvmStatic
+    fun invalidOptionMessage() {
+
+        println("Invalid option, try again...")
+    }
 }
