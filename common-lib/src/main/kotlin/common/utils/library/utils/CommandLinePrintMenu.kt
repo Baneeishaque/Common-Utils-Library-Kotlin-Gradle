@@ -6,13 +6,13 @@ class CommandLinePrintMenu : CommandLinePrintMenuInterface {
 
         listOfCommands.forEach { command ->
 
-            if (command.contains(promptWord, ignoreCase = true)) {
-
-                print(command)
-
-            } else {
+            if (promptWord.isEmpty() || (!(command.contains(promptWord, ignoreCase = true)))) {
 
                 println(command)
+
+            } else if (command.isNotBlank()) {
+
+                print(command)
             }
         }
     }
