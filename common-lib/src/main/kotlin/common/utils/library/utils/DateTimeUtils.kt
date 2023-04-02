@@ -99,6 +99,156 @@ object DateTimeUtils {
     }
 
     @JvmStatic
+    fun resetTimeOnNormalDateTimeInTextToXAsDateTime(dateTimeInText: String): LocalDateTime {
+
+        return resetTimeOnDateTimeInTextToXAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            dateTimePattern = normalDateTimePattern,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
+        )
+    }
+
+    @JvmStatic
+    fun resetTimeOnNormalDateTimeInTextToXAsDateTime(dateTimeInText: String, resetHour: Int): LocalDateTime {
+
+        return resetTimeOnDateTimeInTextToXAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            dateTimePattern = normalDateTimePattern,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
+        )
+    }
+
+    @JvmStatic
+    fun resetTimeOnNormalDateTimeInTextToXAsDateTime(
+
+        dateTimeInText: String,
+        resetHour: Int,
+        resetMinute: Int
+
+    ): LocalDateTime {
+
+        return resetTimeOnDateTimeInTextToXAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            dateTimePattern = normalDateTimePattern,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
+        )
+    }
+
+    @JvmStatic
+    fun resetTimeOnDateTimeInTextToXAsDateTime(
+
+        dateTimeInText: String,
+        resetHour: Int,
+        resetMinute: Int,
+        resetSecond: Int
+
+    ): LocalDateTime {
+
+        return resetTimeOnDateTimeInTextToXAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            dateTimePattern = normalDateTimePattern,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
+        )
+    }
+
+    @JvmStatic
+    fun resetTimeOnDateTimeInTextToXAsDateTime(
+
+        dateTimeInText: String,
+        dateTimePattern: DateTimeFormatter,
+        resetHour: Int,
+        resetMinute: Int,
+        resetSecond: Int
+
+    ): LocalDateTime {
+
+        return LocalDateTime.parse(dateTimeInText, dateTimePattern)
+            .withHour(resetHour).withMinute(resetMinute).withSecond(resetSecond)
+    }
+
+    @JvmStatic
+    fun resetTimeOnDateTimeInTextToX(
+
+        dateTimeInText: String,
+        dateTimePattern: DateTimeFormatter,
+        resetHour: Int,
+        resetMinute: Int,
+        resetSecond: Int
+
+    ): String {
+
+        return resetTimeOnDateTimeInTextToXAsDateTime(
+
+            dateTimeInText,
+            dateTimePattern,
+            resetHour,
+            resetMinute,
+            resetSecond
+
+        ).format(
+            dateTimePattern
+        )
+    }
+
+    @JvmStatic
+    fun resetTimeOnNormalDateTimeInTextToX(
+
+        dateTimeInText: String,
+        resetHour: Int,
+        resetMinute: Int,
+        resetSecond: Int
+
+    ): String {
+
+        return resetTimeOnDateTimeInTextToX(dateTimeInText, normalDateTimePattern, resetHour, resetMinute, resetSecond)
+    }
+
+    @JvmStatic
+    fun resetTimeOnNormalDateTimeInTextToX(
+
+        dateTimeInText: String,
+        resetHour: Int,
+        resetMinute: Int
+
+    ): String {
+
+        return resetTimeOnNormalDateTimeInTextToX(dateTimeInText, resetHour, resetMinute, resetSecond)
+    }
+
+    @JvmStatic
+    fun resetTimeOnNormalDateTimeInTextToX(
+
+        dateTimeInText: String,
+        resetHour: Int
+
+    ): String {
+
+        return resetTimeOnNormalDateTimeInTextToX(dateTimeInText, resetHour, resetMinute, resetSecond)
+    }
+
+    @JvmStatic
+    fun resetTimeOnNormalDateTimeInTextToX(
+
+        dateTimeInText: String
+
+    ): String {
+
+        return resetTimeOnNormalDateTimeInTextToX(dateTimeInText, resetHour, resetMinute, resetSecond)
+    }
+
+    @JvmStatic
     fun subtractDaysToDateTimeInTextAsDateTime(
 
         dateTimeInText: String,
