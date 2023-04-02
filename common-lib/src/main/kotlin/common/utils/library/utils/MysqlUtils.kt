@@ -69,9 +69,9 @@ object MysqlUtils {
 
     ): IsOkModel<LocalDateTime> {
 
-        return DateTimeUtils.dateTimeTextToDateTime(
+        return DateTimeUtils.dateTimeInTextToDateTime(
 
-            dateTimeText = mySqlDateTimeText,
+            dateTimeInText = mySqlDateTimeText,
             dateTimeTextPattern = mysqlDateTimePattern
         )
     }
