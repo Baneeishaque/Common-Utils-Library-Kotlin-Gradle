@@ -1,5 +1,8 @@
 package common.utils.library.utils
 
+import common.utils.library.constants.Constants
+import common.utils.library.enums.TimePartManipulationEnum
+import common.utils.library.enums.TimePartSpecificationEnum
 import common.utils.library.models.IsOkModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -20,33 +23,33 @@ object DateTimeUtils {
     @JvmStatic
     fun addDaysToNormalDateTimeInText(
 
-        dateTimeInText: String,
-        days: Int
+        dateTimeInText: String, days: Int
 
     ): String {
 
-        return addDaysToNormalDateTimeInTextAsDateTime(
+        return manipulateTimePartOnNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
-            days = days
-
-        ).format(normalDateTimePattern)
+            timePartQuantity = days,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
     }
 
     @JvmStatic
     fun subtractDaysFromNormalDateTimeInText(
 
-        dateTimeInText: String,
-        days: Int
+        dateTimeInText: String, days: Int
 
     ): String {
 
-        return subtractDaysFromNormalDateTimeInTextAsDateTime(
+        return manipulateTimePartOnNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
-            days = days
-
-        ).format(normalDateTimePattern)
+            timePartQuantity = days,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
     }
 
     @JvmStatic
@@ -64,6 +67,23 @@ object DateTimeUtils {
     }
 
     @JvmStatic
+    fun addHoursToNormalDateTimeInText(
+
+        dateTimeInText: String,
+        hours: Int
+
+    ): String {
+
+        return manipulateTimePartOnNormalDateTimeInText(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = hours,
+            timePartSpecification = TimePartSpecificationEnum.HOUR,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
+    }
+
+    @JvmStatic
     fun addMinutesToNormalDateTimeInText(
 
         dateTimeInText: String,
@@ -71,12 +91,30 @@ object DateTimeUtils {
 
     ): String {
 
-        return addMinutesToNormalDateTimeInTextAsDateTime(
+        return manipulateTimePartOnNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
-            minutes = minutes
+            timePartQuantity = minutes,
+            timePartSpecification = TimePartSpecificationEnum.MINUTE,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
+    }
 
-        ).format(normalDateTimePattern)
+    @JvmStatic
+    fun addSecondsToNormalDateTimeInText(
+
+        dateTimeInText: String,
+        seconds: Int
+
+    ): String {
+
+        return manipulateTimePartOnNormalDateTimeInText(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = seconds,
+            timePartSpecification = TimePartSpecificationEnum.SECOND,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
     }
 
     @JvmStatic
@@ -87,19 +125,22 @@ object DateTimeUtils {
 
     ): LocalDateTime {
 
-        return LocalDateTime.parse(
-            dateTimeInText,
-            normalDateTimePattern
-        ).plusDays(days.toLong())
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = days,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
     }
 
     @JvmStatic
     fun resetTimeOnNormalDateTimeInTextToXAsDateTime(
 
         dateTimeInText: String,
-        resetHour: Int = 9,
-        resetMinute: Int = 0,
-        resetSecond: Int = 0
+        resetHour: Int = Constants.defaultTimeResetHour,
+        resetMinute: Int = Constants.defaultTimeResetMinute,
+        resetSecond: Int = Constants.defaultTimeResetSecond
 
     ): LocalDateTime {
 
@@ -118,14 +159,14 @@ object DateTimeUtils {
 
         dateTimeInText: String,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int = 9,
-        resetMinute: Int = 0,
-        resetSecond: Int = 0
+        resetHour: Int = Constants.defaultTimeResetHour,
+        resetMinute: Int = Constants.defaultTimeResetMinute,
+        resetSecond: Int = Constants.defaultTimeResetSecond
 
     ): LocalDateTime {
 
-        return LocalDateTime.parse(dateTimeInText, dateTimePattern)
-            .withHour(resetHour).withMinute(resetMinute).withSecond(resetSecond)
+        return LocalDateTime.parse(dateTimeInText, dateTimePattern).withHour(resetHour).withMinute(resetMinute)
+            .withSecond(resetSecond)
     }
 
     @JvmStatic
@@ -133,22 +174,22 @@ object DateTimeUtils {
 
         dateTimeInText: String,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int = 9,
-        resetMinute: Int = 0,
-        resetSecond: Int = 0
+        resetHour: Int = Constants.defaultTimeResetHour,
+        resetMinute: Int = Constants.defaultTimeResetMinute,
+        resetSecond: Int = Constants.defaultTimeResetSecond
 
     ): String {
 
         return resetTimeOnDateTimeInTextToXAsDateTime(
 
-            dateTimeInText,
-            dateTimePattern,
-            resetHour,
-            resetMinute,
-            resetSecond
+            dateTimeInText = dateTimeInText,
+            dateTimePattern = dateTimePattern,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
 
         ).format(
-            dateTimePattern
+            /* formatter = */ dateTimePattern
         )
     }
 
@@ -156,26 +197,35 @@ object DateTimeUtils {
     fun resetTimeOnNormalDateTimeInTextToX(
 
         dateTimeInText: String,
-        resetHour: Int = 9,
-        resetMinute: Int = 0,
-        resetSecond: Int = 0
+        resetHour: Int = Constants.defaultTimeResetHour,
+        resetMinute: Int = Constants.defaultTimeResetMinute,
+        resetSecond: Int = Constants.defaultTimeResetSecond
 
     ): String {
 
-        return resetTimeOnDateTimeInTextToX(dateTimeInText, normalDateTimePattern, resetHour, resetMinute, resetSecond)
+        return resetTimeOnDateTimeInTextToX(
+
+            dateTimeInText = dateTimeInText,
+            dateTimePattern = normalDateTimePattern,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
+        )
     }
 
     @JvmStatic
     fun resetTimeOnDateTimeToX(
 
         dateTime: LocalDateTime,
-        resetHour: Int = 9,
-        resetMinute: Int = 0,
-        resetSecond: Int = 0
+        resetHour: Int = Constants.defaultTimeResetHour,
+        resetMinute: Int = Constants.defaultTimeResetMinute,
+        resetSecond: Int = Constants.defaultTimeResetSecond
 
     ): LocalDateTime {
 
-        return dateTime.withHour(resetHour).withMinute(resetMinute).withSecond(resetSecond)
+        return dateTime.withHour(/* hour = */ resetHour)
+            .withMinute(/* minute = */ resetMinute)
+            .withSecond(/* second = */ resetSecond)
     }
 
     @JvmStatic
@@ -183,26 +233,40 @@ object DateTimeUtils {
 
         dateTime: LocalDateTime,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int = 9,
-        resetMinute: Int = 0,
-        resetSecond: Int = 0
+        resetHour: Int = Constants.defaultTimeResetHour,
+        resetMinute: Int = Constants.defaultTimeResetMinute,
+        resetSecond: Int = Constants.defaultTimeResetSecond
 
     ): String {
 
-        return resetTimeOnDateTimeToX(dateTime, resetHour, resetMinute, resetSecond).format(dateTimePattern)
+        return resetTimeOnDateTimeToX(
+
+            dateTime = dateTime,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
+
+        ).format(dateTimePattern)
     }
 
     @JvmStatic
     fun resetTimeOnNormalDateTimeToXAsText(
 
         dateTime: LocalDateTime,
-        resetHour: Int = 9,
-        resetMinute: Int = 0,
-        resetSecond: Int = 0
+        resetHour: Int = Constants.defaultTimeResetHour,
+        resetMinute: Int = Constants.defaultTimeResetMinute,
+        resetSecond: Int = Constants.defaultTimeResetSecond
 
     ): String {
 
-        return resetTimeOnDateTimeToXAsText(dateTime, normalDateTimePattern, resetHour, resetMinute, resetSecond)
+        return resetTimeOnDateTimeToXAsText(
+
+            dateTime = dateTime,
+            dateTimePattern = normalDateTimePattern,
+            resetHour = resetHour,
+            resetMinute = resetMinute,
+            resetSecond = resetSecond
+        )
     }
 
     @JvmStatic
@@ -213,10 +277,30 @@ object DateTimeUtils {
 
     ): LocalDateTime {
 
-        return LocalDateTime.parse(
-            dateTimeInText,
-            normalDateTimePattern
-        ).minusDays(days.toLong())
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = days,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
+    }
+
+    @JvmStatic
+    fun addHoursToNormalDateTimeInTextAsDateTime(
+
+        dateTimeInText: String,
+        hours: Int
+
+    ): LocalDateTime {
+
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = hours,
+            timePartSpecification = TimePartSpecificationEnum.HOUR,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
     }
 
     @JvmStatic
@@ -227,9 +311,192 @@ object DateTimeUtils {
 
     ): LocalDateTime {
 
-        return LocalDateTime.parse(
-            dateTimeInText, normalDateTimePattern
-        ).plusMinutes(minutes.toLong())
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = minutes,
+            timePartSpecification = TimePartSpecificationEnum.MINUTE,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
+    }
+
+    @JvmStatic
+    fun addSecondsToNormalDateTimeInTextAsDateTime(
+
+        dateTimeInText: String,
+        seconds: Int
+
+    ): LocalDateTime {
+
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = seconds,
+            timePartSpecification = TimePartSpecificationEnum.SECOND,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
+        )
+    }
+
+    @JvmStatic
+    fun subtractHoursFromNormalDateTimeInTextAsDateTime(
+
+        dateTimeInText: String,
+        hours: Int
+
+    ): LocalDateTime {
+
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = hours,
+            timePartSpecification = TimePartSpecificationEnum.HOUR,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
+    }
+
+    @JvmStatic
+    fun subtractMinutesFromNormalDateTimeInTextAsDateTime(
+
+        dateTimeInText: String,
+        minutes: Int
+
+    ): LocalDateTime {
+
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = minutes,
+            timePartSpecification = TimePartSpecificationEnum.MINUTE,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
+    }
+
+    @JvmStatic
+    fun subtractSecondsFromNormalDateTimeInTextAsDateTime(
+
+        dateTimeInText: String,
+        seconds: Int
+
+    ): LocalDateTime {
+
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = seconds,
+            timePartSpecification = TimePartSpecificationEnum.SECOND,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
+    }
+
+    @JvmStatic
+    fun subtractHoursFromNormalDateTimeInText(
+
+        dateTimeInText: String,
+        hours: Int
+
+    ): String {
+
+        return manipulateTimePartOnNormalDateTimeInText(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = hours,
+            timePartSpecification = TimePartSpecificationEnum.HOUR,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
+    }
+
+    @JvmStatic
+    fun subtractMinutesFromNormalDateTimeInText(
+
+        dateTimeInText: String,
+        minutes: Int
+
+    ): String {
+
+        return manipulateTimePartOnNormalDateTimeInText(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = minutes,
+            timePartSpecification = TimePartSpecificationEnum.MINUTE,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
+    }
+
+    @JvmStatic
+    fun subtractSecondsFromNormalDateTimeInText(
+
+        dateTimeInText: String,
+        seconds: Int
+
+    ): String {
+
+        return manipulateTimePartOnNormalDateTimeInText(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = seconds,
+            timePartSpecification = TimePartSpecificationEnum.SECOND,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
+        )
+    }
+
+    @JvmStatic
+    private fun manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+        dateTimeInText: String,
+        timePartQuantity: Int,
+        timePartSpecification: TimePartSpecificationEnum,
+        timePartManipulationActivity: TimePartManipulationEnum
+
+    ): LocalDateTime {
+
+        val result = LocalDateTime.parse(
+            /* text = */ dateTimeInText,
+            /* formatter = */ normalDateTimePattern
+        )
+        when (timePartManipulationActivity) {
+
+            TimePartManipulationEnum.ADDITION -> {
+
+                return when (timePartSpecification) {
+
+                    TimePartSpecificationEnum.HOUR -> result.plusHours(timePartQuantity.toLong())
+                    TimePartSpecificationEnum.MINUTE -> result.plusMinutes(timePartQuantity.toLong())
+                    TimePartSpecificationEnum.SECOND -> result.plusSeconds(timePartQuantity.toLong())
+                    TimePartSpecificationEnum.DAY -> result.plusDays(timePartQuantity.toLong())
+                }
+            }
+
+            TimePartManipulationEnum.SUBTRACTION -> {
+
+                return when (timePartSpecification) {
+
+                    TimePartSpecificationEnum.HOUR -> result.minusHours(timePartQuantity.toLong())
+                    TimePartSpecificationEnum.MINUTE -> result.minusMinutes(timePartQuantity.toLong())
+                    TimePartSpecificationEnum.SECOND -> result.minusSeconds(timePartQuantity.toLong())
+                    TimePartSpecificationEnum.DAY -> result.minusDays(timePartQuantity.toLong())
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    private fun manipulateTimePartOnNormalDateTimeInText(
+
+        dateTimeInText: String,
+        timePartQuantity: Int,
+        timePartSpecification: TimePartSpecificationEnum,
+        timePartManipulationActivity: TimePartManipulationEnum
+
+    ): String {
+
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            timePartQuantity = timePartQuantity,
+            timePartSpecification = timePartSpecification,
+            timePartManipulationActivity = timePartManipulationActivity
+
+        ).format(/* formatter = */ normalDateTimePattern)
     }
 
     @JvmStatic
@@ -278,80 +545,96 @@ object DateTimeUtils {
     @JvmStatic
     fun add1DayToNormalDateTimeInText(dateTimeInText: String): String {
 
-        return addDaysToNormalDateTimeInText(
+        return manipulateTimePartOnNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
-            days = 1
+            timePartQuantity = 1,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
         )
     }
 
     @JvmStatic
     fun subtract1DayFromNormalDateTimeInText(dateTimeInText: String): String {
 
-        return subtractDaysFromNormalDateTimeInText(
+        return manipulateTimePartOnNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
-            days = 1
+            timePartQuantity = 1,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
         )
     }
 
     @JvmStatic
     fun add1DayToNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return addDaysToNormalDateTimeInTextAsDateTime(
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
-            days = 1
+            timePartQuantity = 1,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
         )
     }
 
     @JvmStatic
     fun subtract1DayFromNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return subtractDaysFromNormalDateTimeInTextAsDateTime(
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
-            days = 1
+            timePartQuantity = 1,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
         )
     }
 
     @JvmStatic
     fun add2DaysToNormalDateTimeInText(dateTimeInText: String): String {
 
-        return addDaysToNormalDateTimeInText(
+        return manipulateTimePartOnNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
-            days = 2
+            timePartQuantity = 2,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
         )
     }
 
     @JvmStatic
     fun subtract2DaysFromNormalDateTimeInText(dateTimeInText: String): String {
 
-        return subtractDaysFromNormalDateTimeInText(
+        return manipulateTimePartOnNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
-            days = 2
+            timePartQuantity = 2,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
         )
     }
 
     @JvmStatic
     fun add2DaysToNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return addDaysToNormalDateTimeInTextAsDateTime(
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
-            days = 2
+            timePartQuantity = 2,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.ADDITION
         )
     }
 
     @JvmStatic
     fun subtract2DaysFromNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return subtractDaysFromNormalDateTimeInTextAsDateTime(
+        return manipulateTimePartOnNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
-            days = 2
+            timePartQuantity = 2,
+            timePartSpecification = TimePartSpecificationEnum.DAY,
+            timePartManipulationActivity = TimePartManipulationEnum.SUBTRACTION
         )
     }
 
