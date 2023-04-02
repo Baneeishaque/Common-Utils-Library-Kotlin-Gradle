@@ -17,20 +17,15 @@ object DateTimeUtils {
     @JvmStatic
     val normalDatePattern: DateTimeFormatter = ofPattern("dd/MM/yyyy")!!
 
-    //TODO : extract into function
-    private const val resetHour = 9
-    private const val resetMinute = 0
-    private const val resetSecond = 0
-
     @JvmStatic
-    fun addDaysToDateTimeInText(
+    fun addDaysToNormalDateTimeInText(
 
         dateTimeInText: String,
         days: Int
 
     ): String {
 
-        return addDaysToDateTimeInTextAsDateTime(
+        return addDaysToNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
             days = days
@@ -39,14 +34,14 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun subtractDaysToDateTimeInText(
+    fun subtractDaysFromNormalDateTimeInText(
 
         dateTimeInText: String,
         days: Int
 
     ): String {
 
-        return subtractDaysToDateTimeInTextAsDateTime(
+        return subtractDaysFromNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
             days = days
@@ -55,13 +50,13 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun add5MinutesToDateTimeInText(
+    fun add5MinutesToNormalDateTimeInText(
 
         dateTimeInText: String
 
     ): String {
 
-        return addMinutesToDateTimeInText(
+        return addMinutesToNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
             minutes = 5
@@ -69,14 +64,14 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun addMinutesToDateTimeInText(
+    fun addMinutesToNormalDateTimeInText(
 
         dateTimeInText: String,
         minutes: Int
 
     ): String {
 
-        return addMinutesToDateTimeInTextAsDateTime(
+        return addMinutesToNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
             minutes = minutes
@@ -85,7 +80,7 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun addDaysToDateTimeInTextAsDateTime(
+    fun addDaysToNormalDateTimeInTextAsDateTime(
 
         dateTimeInText: String,
         days: Int
@@ -99,57 +94,12 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun resetTimeOnNormalDateTimeInTextToXAsDateTime(dateTimeInText: String): LocalDateTime {
-
-        return resetTimeOnDateTimeInTextToXAsDateTime(
-
-            dateTimeInText = dateTimeInText,
-            dateTimePattern = normalDateTimePattern,
-            resetHour = resetHour,
-            resetMinute = resetMinute,
-            resetSecond = resetSecond
-        )
-    }
-
-    @JvmStatic
-    fun resetTimeOnNormalDateTimeInTextToXAsDateTime(dateTimeInText: String, resetHour: Int): LocalDateTime {
-
-        return resetTimeOnDateTimeInTextToXAsDateTime(
-
-            dateTimeInText = dateTimeInText,
-            dateTimePattern = normalDateTimePattern,
-            resetHour = resetHour,
-            resetMinute = resetMinute,
-            resetSecond = resetSecond
-        )
-    }
-
-    @JvmStatic
     fun resetTimeOnNormalDateTimeInTextToXAsDateTime(
 
         dateTimeInText: String,
-        resetHour: Int,
-        resetMinute: Int
-
-    ): LocalDateTime {
-
-        return resetTimeOnDateTimeInTextToXAsDateTime(
-
-            dateTimeInText = dateTimeInText,
-            dateTimePattern = normalDateTimePattern,
-            resetHour = resetHour,
-            resetMinute = resetMinute,
-            resetSecond = resetSecond
-        )
-    }
-
-    @JvmStatic
-    fun resetTimeOnDateTimeInTextToXAsDateTime(
-
-        dateTimeInText: String,
-        resetHour: Int,
-        resetMinute: Int,
-        resetSecond: Int
+        resetHour: Int = 9,
+        resetMinute: Int = 0,
+        resetSecond: Int = 0
 
     ): LocalDateTime {
 
@@ -168,9 +118,9 @@ object DateTimeUtils {
 
         dateTimeInText: String,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int,
-        resetMinute: Int,
-        resetSecond: Int
+        resetHour: Int = 9,
+        resetMinute: Int = 0,
+        resetSecond: Int = 0
 
     ): LocalDateTime {
 
@@ -183,9 +133,9 @@ object DateTimeUtils {
 
         dateTimeInText: String,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int,
-        resetMinute: Int,
-        resetSecond: Int
+        resetHour: Int = 9,
+        resetMinute: Int = 0,
+        resetSecond: Int = 0
 
     ): String {
 
@@ -206,9 +156,9 @@ object DateTimeUtils {
     fun resetTimeOnNormalDateTimeInTextToX(
 
         dateTimeInText: String,
-        resetHour: Int,
-        resetMinute: Int,
-        resetSecond: Int
+        resetHour: Int = 9,
+        resetMinute: Int = 0,
+        resetSecond: Int = 0
 
     ): String {
 
@@ -216,40 +166,47 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun resetTimeOnNormalDateTimeInTextToX(
+    fun resetTimeOnDateTimeToX(
 
-        dateTimeInText: String,
-        resetHour: Int,
-        resetMinute: Int
+        dateTime: LocalDateTime,
+        resetHour: Int = 9,
+        resetMinute: Int = 0,
+        resetSecond: Int = 0
 
-    ): String {
+    ): LocalDateTime {
 
-        return resetTimeOnNormalDateTimeInTextToX(dateTimeInText, resetHour, resetMinute, resetSecond)
+        return dateTime.withHour(resetHour).withMinute(resetMinute).withSecond(resetSecond)
     }
 
     @JvmStatic
-    fun resetTimeOnNormalDateTimeInTextToX(
+    fun resetTimeOnDateTimeToXAsText(
 
-        dateTimeInText: String,
-        resetHour: Int
-
-    ): String {
-
-        return resetTimeOnNormalDateTimeInTextToX(dateTimeInText, resetHour, resetMinute, resetSecond)
-    }
-
-    @JvmStatic
-    fun resetTimeOnNormalDateTimeInTextToX(
-
-        dateTimeInText: String
+        dateTime: LocalDateTime,
+        dateTimePattern: DateTimeFormatter,
+        resetHour: Int = 9,
+        resetMinute: Int = 0,
+        resetSecond: Int = 0
 
     ): String {
 
-        return resetTimeOnNormalDateTimeInTextToX(dateTimeInText, resetHour, resetMinute, resetSecond)
+        return resetTimeOnDateTimeToX(dateTime, resetHour, resetMinute, resetSecond).format(dateTimePattern)
     }
 
     @JvmStatic
-    fun subtractDaysToDateTimeInTextAsDateTime(
+    fun resetTimeOnNormalDateTimeToXAsText(
+
+        dateTime: LocalDateTime,
+        resetHour: Int = 9,
+        resetMinute: Int = 0,
+        resetSecond: Int = 0
+
+    ): String {
+
+        return resetTimeOnDateTimeToXAsText(dateTime, normalDateTimePattern, resetHour, resetMinute, resetSecond)
+    }
+
+    @JvmStatic
+    fun subtractDaysFromNormalDateTimeInTextAsDateTime(
 
         dateTimeInText: String,
         days: Int
@@ -263,7 +220,7 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun addMinutesToDateTimeInTextAsDateTime(
+    fun addMinutesToNormalDateTimeInTextAsDateTime(
 
         dateTimeInText: String,
         minutes: Int
@@ -319,19 +276,9 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun add1DayToDateTimeInText(dateTimeInText: String): String {
+    fun add1DayToNormalDateTimeInText(dateTimeInText: String): String {
 
-        return addDaysToDateTimeInText(
-
-            dateTimeInText = dateTimeInText,
-            days = 1
-        )
-    }
-
-    @JvmStatic
-    fun subtract1DayToDateTimeInText(dateTimeInText: String): String {
-
-        return subtractDaysToDateTimeInText(
+        return addDaysToNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
             days = 1
@@ -339,19 +286,9 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun add1DayToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
+    fun subtract1DayFromNormalDateTimeInText(dateTimeInText: String): String {
 
-        return addDaysToDateTimeInTextAsDateTime(
-
-            dateTimeInText = dateTimeInText,
-            days = 1
-        )
-    }
-
-    @JvmStatic
-    fun subtract1DayToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
-
-        return subtractDaysToDateTimeInTextAsDateTime(
+        return subtractDaysFromNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
             days = 1
@@ -359,9 +296,29 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun add2DaysToDateTimeInText(dateTimeInText: String): String {
+    fun add1DayToNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return addDaysToDateTimeInText(
+        return addDaysToNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            days = 1
+        )
+    }
+
+    @JvmStatic
+    fun subtract1DayFromNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
+
+        return subtractDaysFromNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            days = 1
+        )
+    }
+
+    @JvmStatic
+    fun add2DaysToNormalDateTimeInText(dateTimeInText: String): String {
+
+        return addDaysToNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
             days = 2
@@ -369,19 +326,9 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun subtract2DaysToDateTimeInText(dateTimeInText: String): String {
+    fun subtract2DaysFromNormalDateTimeInText(dateTimeInText: String): String {
 
-        return subtractDaysToDateTimeInText(
-
-            dateTimeInText = dateTimeInText,
-            days = 2
-        )
-    }
-
-    @JvmStatic
-    fun add2DaysToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
-
-        return addDaysToDateTimeInTextAsDateTime(
+        return subtractDaysFromNormalDateTimeInText(
 
             dateTimeInText = dateTimeInText,
             days = 2
@@ -389,9 +336,9 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun subtract2DaysToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
+    fun add2DaysToNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return subtractDaysToDateTimeInTextAsDateTime(
+        return addDaysToNormalDateTimeInTextAsDateTime(
 
             dateTimeInText = dateTimeInText,
             days = 2
@@ -399,66 +346,72 @@ object DateTimeUtils {
     }
 
     @JvmStatic
-    fun add1DayWith9ClockTimeToDateTimeInText(dateTimeInText: String): String {
+    fun subtract2DaysFromNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return add1DayWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
+        return subtractDaysFromNormalDateTimeInTextAsDateTime(
+
+            dateTimeInText = dateTimeInText,
+            days = 2
+        )
+    }
+
+    @JvmStatic
+    fun add1DayWith9ClockTimeToNormalDateTimeInText(dateTimeInText: String): String {
+
+        return add1DayWith9ClockTimeToNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
             normalDateTimePattern
         )
     }
 
     @JvmStatic
-    fun subtract1DayWith9ClockTimeToDateTimeInText(dateTimeInText: String): String {
+    fun subtract1DayWith9ClockTimeToNormalDateTimeInText(dateTimeInText: String): String {
 
-        return subtract1DayWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
+        return subtract1DayWith9ClockTimeToNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
             normalDateTimePattern
         )
     }
 
     @JvmStatic
-    fun add1DayWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
+    fun add1DayWith9ClockTimeToNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return add1DayToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).withHour(resetHour)
-            .withMinute(resetMinute).withSecond(resetSecond)
+        return resetTimeOnDateTimeToX(dateTime = add1DayToNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText))
     }
 
     @JvmStatic
-    fun subtract1DayWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
+    fun subtract1DayWith9ClockTimeToNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return subtract1DayToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).withHour(resetHour)
-            .withMinute(resetMinute).withSecond(resetSecond)
+        return resetTimeOnDateTimeToX(dateTime = subtract1DayFromNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText))
     }
 
     @JvmStatic
-    fun add2DaysWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
+    fun add2DaysWith9ClockTimeToNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return add2DaysToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).withHour(resetHour)
-            .withMinute(resetMinute).withSecond(resetSecond)
+        return resetTimeOnDateTimeToX(dateTime = add2DaysToNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText))
     }
 
     @JvmStatic
-    fun subtract2DaysWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
+    fun subtract2DaysWith9ClockTimeFromNormalDateTimeInTextAsDateTime(dateTimeInText: String): LocalDateTime {
 
-        return subtract2DaysToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).withHour(resetHour)
-            .withMinute(resetMinute).withSecond(resetSecond)
+        return resetTimeOnDateTimeToX(dateTime = subtract2DaysFromNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText))
     }
 
     @JvmStatic
-    fun add2DaysWith9ClockTimeToDateTimeInText(dateTimeInText: String): String {
+    fun add2DaysWith9ClockTimeToNormalDateTimeInText(dateTimeInText: String): String {
 
-        return add2DaysWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
+        return add2DaysWith9ClockTimeToNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
             normalDateTimePattern
         )
     }
 
-    fun subtract2DaysWith9ClockTimeToDateTimeInText(dateTimeInText: String): String {
+    fun subtract2DaysWith9ClockTimeFromNormalDateTimeInText(dateTimeInText: String): String {
 
-        return subtract2DaysWith9ClockTimeToDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
+        return subtract2DaysWith9ClockTimeFromNormalDateTimeInTextAsDateTime(dateTimeInText = dateTimeInText).format(
             normalDateTimePattern
         )
     }
 
     @JvmStatic
-    fun getCurrentDateTimeInText(): String {
+    fun getCurrentNormalDateTimeInText(): String {
 
         return LocalDateTime.now().format(normalDateTimePattern)
     }
