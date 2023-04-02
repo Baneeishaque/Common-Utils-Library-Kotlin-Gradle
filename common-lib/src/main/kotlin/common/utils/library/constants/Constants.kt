@@ -8,4 +8,6 @@ object Constants {
 
     //Needs entire match
     const val railwayTimeRegexPattern: String = "(((2[0-3]|[01]?[0-9])(:[0-5][0-9]?(:[0-5][0-9]?)?)?)?)"
+
+    const val digitIncrementOrDecrementRegexPattern:String = "(\\d+)?([-+])"
 }
