@@ -50,14 +50,14 @@ object EnvironmentFileOperations {
 
     fun getEnvironmentVariableValueForBooleanWithDefaultValue(
 
-        dotenv: Dotenv,
+        dotEnv: Dotenv,
         environmentVariableName: String,
         environmentVariableFormalName: String = "",
         defaultValue: Boolean
 
     ): EnvironmentVariableForBoolean {
 
-        val result: String? = dotenv[environmentVariableName]
+        val result: String? = dotEnv[environmentVariableName]
         return if (result.isNullOrEmpty()) {
 
             EnvironmentVariableForBoolean(isAvailable = true, value = defaultValue)

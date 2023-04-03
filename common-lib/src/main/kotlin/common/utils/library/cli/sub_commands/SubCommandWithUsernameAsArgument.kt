@@ -15,7 +15,7 @@ abstract class SubCommandWithUsernameAsArgument(
     name: String,
     actionDescription: String,
     open val isDevelopmentMode: Boolean,
-    open val dotenv: Dotenv
+    open val dotEnv: Dotenv
 ) :
     Subcommand(
         name = name,
@@ -38,7 +38,7 @@ abstract class SubCommandWithUsernameAsArgument(
 
         if (username.isNullOrEmpty()) {
 
-            val environmentUsername = dotenv[EnvironmentFileEntryCommonEnum.USER_NAME.name]
+            val environmentUsername = dotEnv[EnvironmentFileEntryCommonEnum.USER_NAME.name]
             if (environmentUsername.isNullOrEmpty()) {
 
                 printMissingArgumentMessageForApi(argumentSummary = "username of the user")

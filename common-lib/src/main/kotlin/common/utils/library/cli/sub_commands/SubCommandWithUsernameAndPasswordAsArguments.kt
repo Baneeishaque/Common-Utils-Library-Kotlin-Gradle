@@ -10,14 +10,14 @@ abstract class SubCommandWithUsernameAndPasswordAsArguments(
     name: String,
     actionDescription: String,
     override val isDevelopmentMode: Boolean,
-    override val dotenv: Dotenv
+    override val dotEnv: Dotenv
 ) :
     SubCommandWithUsernameAsArgument(
 
         name = name,
         actionDescription = actionDescription,
         isDevelopmentMode = isDevelopmentMode,
-        dotenv = dotenv
+        dotEnv = dotEnv
     ) {
 
     val password: String? = getOptionalTextArgument(
@@ -40,7 +40,7 @@ abstract class SubCommandWithUsernameAndPasswordAsArguments(
 
         if (password.isNullOrEmpty()) {
 
-            val environmentPasscode = dotenv[EnvironmentFileEntryCommonEnum.PASSWORD.name]
+            val environmentPasscode = dotEnv[EnvironmentFileEntryCommonEnum.PASSWORD.name]
             if (environmentPasscode.isNullOrEmpty()) {
 
                 printMissingArgumentMessageForApi(argumentSummary = "password of the user")
