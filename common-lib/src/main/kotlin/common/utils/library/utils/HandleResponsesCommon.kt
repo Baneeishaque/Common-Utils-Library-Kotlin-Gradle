@@ -2,7 +2,7 @@ package common.utils.library.utils
 
 import common.utils.library.models.IsOkModel
 
-object HandleResponses {
+object HandleResponsesCommon {
 
     @JvmStatic
     fun <T> isOkModelHandler(

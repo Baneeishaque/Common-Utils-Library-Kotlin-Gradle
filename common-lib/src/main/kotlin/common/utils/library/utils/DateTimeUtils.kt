@@ -1,6 +1,6 @@
 package common.utils.library.utils
 
-import common.utils.library.constants.Constants
+import common.utils.library.constants.CommonConstants
 import common.utils.library.enums.TimePartManipulationEnum
 import common.utils.library.enums.TimePartSpecificationEnum
 import common.utils.library.models.IsOkModel
@@ -138,9 +138,9 @@ object DateTimeUtils {
     fun resetTimeOnNormalDateTimeInTextToXAsDateTime(
 
         dateTimeInText: String,
-        resetHour: Int = Constants.defaultTimeResetHour,
-        resetMinute: Int = Constants.defaultTimeResetMinute,
-        resetSecond: Int = Constants.defaultTimeResetSecond
+        resetHour: Int = CommonConstants.defaultTimeResetHour,
+        resetMinute: Int = CommonConstants.defaultTimeResetMinute,
+        resetSecond: Int = CommonConstants.defaultTimeResetSecond
 
     ): LocalDateTime {
 
@@ -159,9 +159,9 @@ object DateTimeUtils {
 
         dateTimeInText: String,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int = Constants.defaultTimeResetHour,
-        resetMinute: Int = Constants.defaultTimeResetMinute,
-        resetSecond: Int = Constants.defaultTimeResetSecond
+        resetHour: Int = CommonConstants.defaultTimeResetHour,
+        resetMinute: Int = CommonConstants.defaultTimeResetMinute,
+        resetSecond: Int = CommonConstants.defaultTimeResetSecond
 
     ): LocalDateTime {
 
@@ -174,9 +174,9 @@ object DateTimeUtils {
 
         dateTimeInText: String,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int = Constants.defaultTimeResetHour,
-        resetMinute: Int = Constants.defaultTimeResetMinute,
-        resetSecond: Int = Constants.defaultTimeResetSecond
+        resetHour: Int = CommonConstants.defaultTimeResetHour,
+        resetMinute: Int = CommonConstants.defaultTimeResetMinute,
+        resetSecond: Int = CommonConstants.defaultTimeResetSecond
 
     ): String {
 
@@ -197,9 +197,9 @@ object DateTimeUtils {
     fun resetTimeOnNormalDateTimeInTextToX(
 
         dateTimeInText: String,
-        resetHour: Int = Constants.defaultTimeResetHour,
-        resetMinute: Int = Constants.defaultTimeResetMinute,
-        resetSecond: Int = Constants.defaultTimeResetSecond
+        resetHour: Int = CommonConstants.defaultTimeResetHour,
+        resetMinute: Int = CommonConstants.defaultTimeResetMinute,
+        resetSecond: Int = CommonConstants.defaultTimeResetSecond
 
     ): String {
 
@@ -217,9 +217,9 @@ object DateTimeUtils {
     fun resetTimeOnDateTimeToX(
 
         dateTime: LocalDateTime,
-        resetHour: Int = Constants.defaultTimeResetHour,
-        resetMinute: Int = Constants.defaultTimeResetMinute,
-        resetSecond: Int = Constants.defaultTimeResetSecond
+        resetHour: Int = CommonConstants.defaultTimeResetHour,
+        resetMinute: Int = CommonConstants.defaultTimeResetMinute,
+        resetSecond: Int = CommonConstants.defaultTimeResetSecond
 
     ): LocalDateTime {
 
@@ -233,9 +233,9 @@ object DateTimeUtils {
 
         dateTime: LocalDateTime,
         dateTimePattern: DateTimeFormatter,
-        resetHour: Int = Constants.defaultTimeResetHour,
-        resetMinute: Int = Constants.defaultTimeResetMinute,
-        resetSecond: Int = Constants.defaultTimeResetSecond
+        resetHour: Int = CommonConstants.defaultTimeResetHour,
+        resetMinute: Int = CommonConstants.defaultTimeResetMinute,
+        resetSecond: Int = CommonConstants.defaultTimeResetSecond
 
     ): String {
 
@@ -253,9 +253,9 @@ object DateTimeUtils {
     fun resetTimeOnNormalDateTimeToXAsText(
 
         dateTime: LocalDateTime,
-        resetHour: Int = Constants.defaultTimeResetHour,
-        resetMinute: Int = Constants.defaultTimeResetMinute,
-        resetSecond: Int = Constants.defaultTimeResetSecond
+        resetHour: Int = CommonConstants.defaultTimeResetHour,
+        resetMinute: Int = CommonConstants.defaultTimeResetMinute,
+        resetSecond: Int = CommonConstants.defaultTimeResetSecond
 
     ): String {
 

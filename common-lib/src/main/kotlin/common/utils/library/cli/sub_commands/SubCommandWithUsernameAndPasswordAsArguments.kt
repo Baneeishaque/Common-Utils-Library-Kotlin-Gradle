@@ -2,7 +2,7 @@ package common.utils.library.cli.sub_commands
 
 import common.utils.library.enums.CommandLineApiMethodCommonArgumentsEnum
 import common.utils.library.enums.EnvironmentFileEntryCommonEnum
-import common.utils.library.utils.ApiUtils.printMissingArgumentMessageForApi
+import common.utils.library.utils.ApiUtilsCommon
 import io.github.cdimascio.dotenv.Dotenv
 
 abstract class SubCommandWithUsernameAndPasswordAsArguments(
@@ -43,7 +43,7 @@ abstract class SubCommandWithUsernameAndPasswordAsArguments(
             val environmentPasscode = dotEnv[EnvironmentFileEntryCommonEnum.PASSWORD.name]
             if (environmentPasscode.isNullOrEmpty()) {
 
-                printMissingArgumentMessageForApi(argumentSummary = "password of the user")
+                ApiUtilsCommon.printMissingArgumentMessageForApi(argumentSummary = "password of the user")
 
             } else {
 

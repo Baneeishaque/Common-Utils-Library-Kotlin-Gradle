@@ -1,12 +1,12 @@
 package common.utils.library.utils
 
-import common.utils.library.constants.Constants
+import common.utils.library.constants.CommonConstants
 import common.utils.library.models.CommonDataModel
 import common.utils.library.models.IsOkModel
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 
-object ApiUtils {
+object ApiUtilsCommon {
 
     @JvmStatic
     fun getServerApiMethodAbsoluteUrl(serverApiMethodName: String, serverFileExtension: String): String {
@@ -250,7 +250,7 @@ object ApiUtils {
     }
 
     @JvmStatic
-    fun printNegativeNumberArgumentValueMessageForApi(
+    fun printNegativeNumberOrZeroArgumentValueMessageForApi(
 
         argumentSummary: String,
         searchedInEnvironmentFile: Boolean = true,
@@ -273,7 +273,7 @@ object ApiUtils {
         searchedInEnvironmentFile: Boolean = true,
     ) {
 
-        printNegativeNumberArgumentValueMessageForApi(
+        printNegativeNumberOrZeroArgumentValueMessageForApi(
 
             argumentSummary = argumentSummary,
             searchedInEnvironmentFile = searchedInEnvironmentFile,
@@ -284,6 +284,6 @@ object ApiUtils {
     @JvmStatic
     fun printNotImplementedMessageForApi() {
 
-        printErrorMessageForApi(errorMessage = Constants.notImplementedMessage)
+        printErrorMessageForApi(errorMessage = CommonConstants.notImplementedMessage)
     }
 }

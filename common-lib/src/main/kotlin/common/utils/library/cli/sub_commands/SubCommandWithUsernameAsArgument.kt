@@ -2,7 +2,7 @@ package common.utils.library.cli.sub_commands
 
 import common.utils.library.enums.CommandLineApiMethodCommonArgumentsEnum
 import common.utils.library.enums.EnvironmentFileEntryCommonEnum
-import common.utils.library.utils.ApiUtils.printMissingArgumentMessageForApi
+import common.utils.library.utils.ApiUtilsCommon
 import io.github.cdimascio.dotenv.Dotenv
 import kotlinx.cli.ArgType
 import kotlinx.cli.ExperimentalCli
@@ -41,7 +41,7 @@ abstract class SubCommandWithUsernameAsArgument(
             val environmentUsername = dotEnv[EnvironmentFileEntryCommonEnum.USER_NAME.name]
             if (environmentUsername.isNullOrEmpty()) {
 
-                printMissingArgumentMessageForApi(argumentSummary = "username of the user")
+                ApiUtilsCommon.printMissingArgumentMessageForApi(argumentSummary = "username of the user")
 
             } else {
 
