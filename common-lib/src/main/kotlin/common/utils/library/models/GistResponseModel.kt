@@ -10,7 +10,7 @@ data class Root(
 
 @Serializable
 data class Files(
-    // TODO: use environmnent variable for filename
+    // TODO: use environment variable for filename
     @SerialName("main.txt")
     val mainTxt: MainTxt
 )

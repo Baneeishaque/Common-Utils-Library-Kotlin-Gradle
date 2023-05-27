@@ -15,7 +15,7 @@ object InputUtils {
         } catch (exception: NumberFormatException) {
 
             print(constructInvalidMessage.invoke(inputText))
-            getValidFloat(inputText = readLine()!!, constructInvalidMessage = constructInvalidMessage)
+            getValidFloat(inputText = readln(), constructInvalidMessage = constructInvalidMessage)
         }
     }
 
@@ -29,7 +29,7 @@ object InputUtils {
         } catch (exception: NumberFormatException) {
 
             print(message = invalidMessage)
-            getValidUnsignedInt(inputText = readLine()!!, invalidMessage = invalidMessage)
+            getValidUnsignedInt(inputText = readln(), invalidMessage = invalidMessage)
         }
     }
 
@@ -47,7 +47,7 @@ object InputUtils {
 
                 inputUInt = getValidUnsignedInt(
 
-                    inputText = readLine()!!,
+                    inputText = readln(),
                     invalidMessage = "Please Enter Valid Unsigned Integer"
                 ),
                 thresholdValue = thresholdValue,
@@ -63,7 +63,7 @@ object InputUtils {
         print("Enter ${promptPrefix}Time (DD/MM/YYYY HH:MM:SS) : ")
         return try {
 
-            LocalDateTime.parse(readLine(), DateTimeUtils.normalDateTimePattern)
+            LocalDateTime.parse(readlnOrNull(), DateTimeUtils.normalDateTimePattern)
                 .format(DateTimeUtils.normalDateTimePattern)
 
         } catch (e: DateTimeParseException) {
@@ -80,7 +80,7 @@ object InputUtils {
         print("Enter Date (DD/MM/YYYY) : ")
         return try {
 
-            LocalDate.parse(readLine(), DateTimeUtils.normalDatePattern)
+            LocalDate.parse(readlnOrNull(), DateTimeUtils.normalDatePattern)
                 .format(DateTimeUtils.normalDatePattern)
 
         } catch (e: DateTimeParseException) {
