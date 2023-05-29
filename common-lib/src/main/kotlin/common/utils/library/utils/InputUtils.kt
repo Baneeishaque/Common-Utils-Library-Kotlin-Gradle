@@ -74,10 +74,10 @@ object InputUtils {
     }
 
     @JvmStatic
-    fun getValidDateInNormalPattern(): String {
+    fun getValidDateInNormalPattern(promptPrefix: String = ""): String {
 
         // TODO : Implement Back
-        print("Enter Date (DD/MM/YYYY) : ")
+        print("Enter ${promptPrefix}Date (DD/MM/YYYY) : ")
         return try {
 
             LocalDate.parse(readlnOrNull(), DateTimeUtils.normalDatePattern)
@@ -86,7 +86,23 @@ object InputUtils {
         } catch (e: DateTimeParseException) {
 
             println("Invalid Date...")
-            getValidDateInNormalPattern()
+            getValidDateInNormalPattern(promptPrefix = promptPrefix)
+        }
+    }
+
+    @JvmStatic
+    fun getValidDateInNormalFormat(promptPrefix: String = ""): LocalDate {
+
+        // TODO : Implement Back
+        print("Enter ${promptPrefix}Date (DD/MM/YYYY) : ")
+        return try {
+
+            LocalDate.parse(readlnOrNull(), DateTimeUtils.normalDatePattern)
+
+        } catch (e: DateTimeParseException) {
+
+            println("Invalid Date...")
+            getValidDateInNormalFormat(promptPrefix = promptPrefix)
         }
     }
 }
