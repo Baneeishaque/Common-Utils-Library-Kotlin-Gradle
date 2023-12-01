@@ -206,6 +206,21 @@ object ApiUtilsCommon {
     }
 
     @JvmStatic
+    fun printSuccessMessageWithDataForApi(
+        textData: String
+    ) {
+        print(
+            Json.encodeToString(
+                serializer = CommonDataModel.serializer(Unit.serializer()),
+                value = CommonDataModel(
+                    status = 0,
+                    textData = textData
+                )
+            )
+        )
+    }
+
+    @JvmStatic
     fun printSuccessMessageForApi() {
         print(
             Json.encodeToString(
