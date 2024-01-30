@@ -25,7 +25,7 @@ abstract class SubCommandWithUsernameAndPasswordAsArguments(
         description = "Password of the User"
     )
 
-    abstract fun localBeforeExecuteActions()
+    abstract fun additionalBeforeExecuteActions()
 
     override fun beforeExecuteActions() {
 
@@ -33,7 +33,7 @@ abstract class SubCommandWithUsernameAndPasswordAsArguments(
 
             println("userName = $username")
         }
-        localBeforeExecuteActions()
+        additionalBeforeExecuteActions()
     }
 
     override fun furtherActions(usernameLocal: String) {
@@ -47,7 +47,7 @@ abstract class SubCommandWithUsernameAndPasswordAsArguments(
 
             } else {
 
-                furtherActions(
+                additionalFurtherActions(
                     usernameLocal = usernameLocal,
                     passwordLocal = environmentPasscode
                 )
@@ -55,12 +55,12 @@ abstract class SubCommandWithUsernameAndPasswordAsArguments(
 
         } else {
 
-            furtherActions(
+            additionalFurtherActions(
                 usernameLocal = usernameLocal,
                 passwordLocal = password,
             )
         }
     }
 
-    abstract fun furtherActions(usernameLocal: String, passwordLocal: String)
+    abstract fun additionalFurtherActions(usernameLocal: String, passwordLocal: String)
 }
