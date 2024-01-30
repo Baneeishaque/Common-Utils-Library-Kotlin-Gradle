@@ -9,7 +9,6 @@ import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
 import kotlinx.cli.optional
 
-@OptIn(ExperimentalCli::class)
 abstract class SubCommandWithUserIdAsArgument(
 
     name: String,
@@ -17,13 +16,13 @@ abstract class SubCommandWithUserIdAsArgument(
     open val isDevelopmentMode: Boolean,
     open val dotEnv: Dotenv
 ) :
-    Subcommand(
+    EnhancedSubCommand(
         name = name,
         actionDescription = actionDescription
     ) {
 
     private val userIdDescription: String = "User Id of the User"
-    private val userId: Int? by argument(
+    val userId: Int? by argument(
 
         type = ArgType.Int,
         fullName = CommandLineApiMethodCommonArgumentsEnum.UserId.name,

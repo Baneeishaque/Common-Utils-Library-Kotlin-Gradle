@@ -4,12 +4,8 @@ import common.utils.library.enums.CommandLineApiMethodCommonArgumentsEnum
 import common.utils.library.enums.EnvironmentFileEntryCommonEnum
 import common.utils.library.utils.ApiUtilsCommon
 import io.github.cdimascio.dotenv.Dotenv
-import kotlinx.cli.ArgType
 import kotlinx.cli.ExperimentalCli
-import kotlinx.cli.Subcommand
-import kotlinx.cli.optional
 
-@OptIn(ExperimentalCli::class)
 abstract class SubCommandWithUsernameAsArgument(
 
     name: String,
@@ -17,7 +13,7 @@ abstract class SubCommandWithUsernameAsArgument(
     open val isDevelopmentMode: Boolean,
     open val dotEnv: Dotenv
 ) :
-    Subcommand(
+    EnhancedSubCommand(
         name = name,
         actionDescription = actionDescription
     ) {
@@ -56,17 +52,4 @@ abstract class SubCommandWithUsernameAsArgument(
     abstract fun beforeExecuteActions()
 
     abstract fun furtherActions(usernameLocal: String)
-
-    fun getOptionalTextArgument(fullName: String, description: String): String? {
-
-        val optionalTextArgument: String? by argument(
-
-            type = ArgType.String,
-            fullName = fullName,
-            description = description
-
-        ).optional()
-
-        return optionalTextArgument
-    }
 }
