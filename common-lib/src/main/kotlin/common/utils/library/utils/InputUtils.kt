@@ -80,7 +80,7 @@ object InputUtils {
         print("Enter ${promptPrefix}Date (DD/MM/YYYY) : ")
         return try {
 
-            LocalDate.parse(readlnOrNull(), DateTimeUtils.normalDatePattern)
+            LocalDate.parse(readlnOrNull().toString(), DateTimeUtils.normalDatePattern)
                 .format(DateTimeUtils.normalDatePattern)
 
         } catch (e: DateTimeParseException) {
@@ -97,7 +97,7 @@ object InputUtils {
         print("Enter ${promptPrefix}Date (DD/MM/YYYY) : ")
         return try {
 
-            LocalDate.parse(readlnOrNull(), DateTimeUtils.normalDatePattern)
+            LocalDate.parse(readlnOrNull().toString(), DateTimeUtils.normalDatePattern)
 
         } catch (e: DateTimeParseException) {
 

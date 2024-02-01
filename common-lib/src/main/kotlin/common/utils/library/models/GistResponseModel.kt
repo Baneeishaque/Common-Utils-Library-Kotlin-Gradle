@@ -5,11 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Root(
+
     val files: Files
 )
 
 @Serializable
 data class Files(
+
     // TODO: use environment variable for filename
     @SerialName("main.txt")
     val mainTxt: MainTxt
@@ -17,5 +19,6 @@ data class Files(
 
 @Serializable
 data class MainTxt(
+
     val content: String
 )
