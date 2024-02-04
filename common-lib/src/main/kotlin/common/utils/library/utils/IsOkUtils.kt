@@ -28,7 +28,6 @@ object IsOkUtils {
         isOkModel: IsOkModel<T>,
         dataOperation: (T) -> Unit,
         errorOperation: (String) -> Unit
-
     ) {
         if (isOkModel.isOK) {
 
