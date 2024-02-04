@@ -14,4 +14,6 @@ object CommonConstants {
     const val defaultTimeResetHour = 9
     const val defaultTimeResetMinute = 0
     const val defaultTimeResetSecond = 0
+
+    const val USER_CANCELED_MESSAGE = "Operation is cancelled by the user..."
 }
