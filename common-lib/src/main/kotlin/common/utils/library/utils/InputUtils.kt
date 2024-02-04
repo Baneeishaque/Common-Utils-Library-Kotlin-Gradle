@@ -6,21 +6,69 @@ import java.time.format.DateTimeParseException
 
 object InputUtils {
 
-    @JvmStatic
-    fun getValidFloat(inputText: String, constructInvalidMessage: (String) -> String): Float {
+    private fun getValidFloat(
+
+        inputText: String
+
+    ): Pair<Boolean, Float?> {
 
         return try {
-            inputText.toFloat()
+
+            Pair(true, inputText.toFloat())
 
         } catch (exception: NumberFormatException) {
 
-            print(constructInvalidMessage.invoke(inputText))
-            getValidFloat(inputText = readln(), constructInvalidMessage = constructInvalidMessage)
+            Pair(false, null)
         }
     }
 
     @JvmStatic
-    fun getValidUnsignedInt(inputText: String, invalidMessage: String): UInt {
+    fun getValidFloat(
+
+        inputText: String,
+        invalidMessage: String = "Please Enter Valid Floating Point Integer"
+
+    ): Float {
+
+        val getValidFloatResult: Pair<Boolean, Float?> = getValidFloat(inputText = inputText)
+        if (getValidFloatResult.first) {
+
+            return getValidFloatResult.second!!
+
+        } else {
+
+            println(invalidMessage)
+            return getValidFloat(inputText = readln(), invalidMessage = invalidMessage)
+        }
+    }
+
+    @JvmStatic
+    fun getValidFloat(
+
+        inputText: String,
+        constructInvalidMessage: (String) -> String
+
+    ): Float {
+
+        val getValidFloatResult: Pair<Boolean, Float?> = getValidFloat(inputText = inputText)
+        if (getValidFloatResult.first) {
+
+            return getValidFloatResult.second!!
+
+        } else {
+
+            print(constructInvalidMessage.invoke(inputText))
+            return getValidFloat(inputText = readln(), constructInvalidMessage = constructInvalidMessage)
+        }
+    }
+
+    @JvmStatic
+    fun getValidUnsignedInt(
+
+        inputText: String,
+        invalidMessage: String = "Please Enter Valid Unsigned Integer"
+
+    ): UInt {
 
         return try {
 
@@ -34,7 +82,13 @@ object InputUtils {
     }
 
     @JvmStatic
-    fun getGreaterUnsignedInt(inputUInt: UInt, thresholdValue: UInt, constructInvalidMessage: (UInt) -> String): UInt {
+    fun getGreaterUnsignedInt(
+
+        inputUInt: UInt,
+        thresholdValue: UInt,
+        constructInvalidMessage: (UInt) -> String
+
+    ): UInt {
 
         if (inputUInt > thresholdValue) {
 
@@ -63,7 +117,7 @@ object InputUtils {
         print("Enter ${promptPrefix}Time (DD/MM/YYYY HH:MM:SS) : ")
         return try {
 
-            LocalDateTime.parse(readlnOrNull(), DateTimeUtils.normalDateTimePattern)
+            LocalDateTime.parse(readlnOrNull().toString(), DateTimeUtils.normalDateTimePattern)
                 .format(DateTimeUtils.normalDateTimePattern)
 
         } catch (e: DateTimeParseException) {

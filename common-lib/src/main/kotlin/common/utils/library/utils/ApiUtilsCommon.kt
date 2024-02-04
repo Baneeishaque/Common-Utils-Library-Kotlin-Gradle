@@ -130,23 +130,21 @@ object ApiUtilsCommon {
     }
 
     @JvmStatic
-    fun isNoDataResponseWithMessageIncludingBeforeMessageActionsAnd1AsIndicator(
+    fun isNoDataResponseWithMessageAnd1AsIndicator(
 
         responseStatus: UInt,
-        noDataMessageBeforeActions: () -> Unit = fun() {},
+        noDataActions: () -> Unit = fun() {},
         itemSpecification: String
 
     ): Boolean {
 
-        return isNoDataResponse(
+        return isNoDataResponseWithMessage(
 
             responseStatus = responseStatus,
             noDataIndicator = 1u,
-            noDataActions = fun() {
-
-                noDataMessageBeforeActions.invoke()
-                println("No ${itemSpecification}s...")
-            })
+            noDataActions = noDataActions,
+            itemSpecification = itemSpecification
+        )
     }
 
     @JvmStatic
@@ -154,7 +152,7 @@ object ApiUtilsCommon {
 
         apiResponse: Result<T>,
         apiFailureActions: () -> Unit = fun() {},
-        apiSuccessActions: () -> Unit
+        apiSuccessActions: (T) -> Unit
 
     ) {
 
@@ -164,7 +162,7 @@ object ApiUtilsCommon {
 
         } else {
 
-            apiSuccessActions.invoke()
+            apiSuccessActions.invoke(apiResponse.getOrNull()!!)
         }
     }
 
