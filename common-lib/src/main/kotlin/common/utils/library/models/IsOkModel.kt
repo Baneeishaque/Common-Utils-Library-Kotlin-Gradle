@@ -8,5 +8,5 @@ data class IsOkModel<T>(
 
     @Required val isOK: Boolean,
     val data: T? = null,
-    val error: String? = null
+    var error: String? = null
 )
