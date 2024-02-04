@@ -39,4 +39,14 @@ object IsOkUtils {
             errorOperation.invoke(isOkModel.error!!)
         }
     }
+
+    @JvmStatic
+    fun <T> isNotOk(
+
+        isOkModel: IsOkModel<T>
+
+    ): Boolean {
+
+        return !isOkModel.isOK
+    }
 }
