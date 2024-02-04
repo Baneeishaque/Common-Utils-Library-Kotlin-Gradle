@@ -4,6 +4,7 @@ object CommonConstants {
 
     //    TODO : Control width via function parameter
     const val dashedLineSeparator: String = "---------------------------------------------------"
+    const val DOUBLE_DASHED_LINE_SEPARATOR: String = "==================================================="
     const val notImplementedMessage = "Not Implemented Yet..."
 
     //Needs entire match
