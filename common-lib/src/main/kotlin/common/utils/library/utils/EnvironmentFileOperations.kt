@@ -1,5 +1,6 @@
 package common.utils.library.utils
 
+import common.utils.library.models.IsOkModel
 import io.github.cdimascio.dotenv.Dotenv
 import java.lang.IllegalArgumentException
 import java.lang.NumberFormatException
@@ -23,7 +24,8 @@ object EnvironmentFileOperations {
 
     ): String = (dotenv[environmentVariableName] ?: defaultValue).trim('\'')
 
-    fun getEnvironmentVariableValueForWholeNumberWithDefaultValue(
+    @JvmStatic
+    fun getEnvironmentVariableValueForWholeNumberWithDefaultValueInteractive(
 
         dotenv: Dotenv,
         environmentVariableName: String,
@@ -51,7 +53,8 @@ object EnvironmentFileOperations {
         }
     }
 
-    fun getEnvironmentVariableValueForBooleanWithDefaultValue(
+    @JvmStatic
+    fun getEnvironmentVariableValueForBooleanWithDefaultValueInteractive(
 
         dotEnv: Dotenv,
         environmentVariableName: String,
@@ -79,7 +82,8 @@ object EnvironmentFileOperations {
         }
     }
 
-    fun getEnvironmentVariableValueForWholeNumber(
+    @JvmStatic
+    fun getEnvironmentVariableValueForWholeNumberInteractive(
 
         dotenv: Dotenv,
         environmentVariableName: String,
@@ -111,5 +115,37 @@ object EnvironmentFileOperations {
     fun isEnvironmentVariablesAreAvailable(environmentVariables: List<EnvironmentVariableForAny<*>>): Boolean {
 
         return environmentVariables.all { it.isAvailable }
+    }
+
+    @JvmStatic
+    fun confirmWholeNumberEnvironmentVariableData(
+
+        dotenv: Dotenv,
+        environmentVariableName: String,
+        dataCorrectionOperation: () -> IsOkModel<UInt>,
+        dataSpecification: String
+
+    ): IsOkModel<UInt> {
+
+        val environmentVariableForWholeNumber: EnvironmentVariableForWholeNumber =
+            getEnvironmentVariableValueForWholeNumberInteractive(
+
+                dotenv = dotenv,
+                environmentVariableName = environmentVariableName
+            )
+
+        val confirmDataResult: IsOkModel<UInt> = if (environmentVariableForWholeNumber.isAvailable) {
+
+            InputUtilsInteractive.confirmDataInteractive(
+
+                dataSpecification = dataSpecification,
+                data = environmentVariableForWholeNumber.value!!,
+                dataCorrectionFunction = dataCorrectionOperation
+            )
+        } else {
+
+            dataCorrectionOperation.invoke()
+        }
+        return confirmDataResult
     }
 }

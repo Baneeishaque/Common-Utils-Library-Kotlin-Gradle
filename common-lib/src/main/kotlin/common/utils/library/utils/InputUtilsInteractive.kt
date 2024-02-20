@@ -1,10 +1,11 @@
 package common.utils.library.utils
 
+import common.utils.library.models.IsOkModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeParseException
 
-object InputUtils {
+object InputUtilsInteractive {
 
     private fun getValidFloat(
 
@@ -79,6 +80,56 @@ object InputUtils {
             print(message = invalidMessage)
             getValidUnsignedInt(inputText = readln(), invalidMessage = invalidMessage)
         }
+    }
+
+    @JvmStatic
+    fun getValidUnsignedIntOrBack(
+
+        inputText: String,
+        invalidMessage: String = "Please Enter Valid Unsigned Integer"
+
+    ): IsOkModel<UInt> {
+
+        try {
+
+            return IsOkModel(
+
+                isOK = true,
+                data = inputText.toUInt()
+            )
+
+        } catch (exception: NumberFormatException) {
+
+            return if (inputText == "B") {
+
+                IsOkModel(isOK = false)
+
+            } else {
+
+                print(message = "$invalidMessage Or B to back")
+                getValidUnsignedIntOrBack(
+
+                    inputText = readln(),
+                    invalidMessage = invalidMessage
+                )
+            }
+        }
+    }
+
+    @JvmStatic
+    fun getValidUnsignedIntOrBackWithPrompt(
+
+        dataSpecification: String,
+        dataIndex: UInt? = null
+
+    ): IsOkModel<UInt> {
+
+        println("Enter $dataSpecification ${if (dataIndex == null) "" else "($dataIndex) "}: ")
+        return getValidUnsignedIntOrBack(
+
+            inputText = readln(),
+            invalidMessage = "Please Enter Valid $dataSpecification"
+        )
     }
 
     @JvmStatic
@@ -158,5 +209,79 @@ object InputUtils {
             println("Invalid Date...")
             getValidDateInNormalFormat(promptPrefix = promptPrefix)
         }
+    }
+
+    @JvmStatic
+    fun <T> confirmDataInteractive(
+
+        dataSpecification: String,
+        data: T,
+        dataCorrectionFunction: () -> IsOkModel<T>
+
+    ): IsOkModel<T> {
+
+        var localData: T = data
+        do {
+            print("Please confirm $dataSpecification (Y/N or B for Back) -> $data : ")
+            when (readlnOrNull().toString()) {
+
+                "Y", "" -> {
+                    break
+                }
+
+                "N" -> {
+                    val localDataResult = dataCorrectionFunction.invoke()
+                    if (localDataResult.isOK) {
+
+                        localData = localDataResult.data!!
+
+                    } else {
+
+                        return IsOkModel(isOK = false)
+                    }
+                }
+
+                "B" -> {
+                    return IsOkModel(isOK = false)
+                }
+
+                else -> InteractiveUtils.invalidOptionMessage()
+            }
+        } while (true)
+
+        return IsOkModel(
+
+            isOK = true,
+            data = localData
+        )
+    }
+
+    @JvmStatic
+    fun getMultipleValidUnsignedIntOrBackWithPrompt(
+
+        dataSpecification: String,
+        count: UInt
+
+    ): IsOkModel<List<UInt>> {
+
+        val inputs: MutableList<UInt> = mutableListOf()
+        repeat(count.toInt()) { index: Int ->
+
+            val inputResult: IsOkModel<UInt> =
+                getValidUnsignedIntOrBackWithPrompt(
+
+                    dataSpecification = dataSpecification,
+                    dataIndex = index.toUInt()
+                )
+            if (inputResult.isOK) {
+
+                inputs.add(inputResult.data!!)
+
+            } else {
+
+                return IsOkModel(isOK = false)
+            }
+        }
+        return IsOkModel(isOK = true, data = inputs)
     }
 }

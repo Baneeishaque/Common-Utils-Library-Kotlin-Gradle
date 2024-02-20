@@ -48,4 +48,44 @@ object IsOkUtils {
 
         return !isOkModel.isOK
     }
+
+    @JvmStatic
+    fun <T> isOkHandler(
+
+        isOkModel: IsOkModel<*>,
+        data: T,
+        successActions: () -> T,
+        failureActions: () -> Unit = fun() {}
+
+    ): T {
+
+        var localData: T = data
+        if (isOkModel.isOK) {
+
+            localData = successActions.invoke()
+
+        } else {
+
+            failureActions.invoke()
+        }
+        return localData
+    }
+
+    @JvmStatic
+    fun <T> checkListOfOkModels(isOkModels: List<IsOkModel<T>>): IsOkModel<List<T>> {
+
+        val result: MutableList<T> = mutableListOf()
+        for (isOkModel: IsOkModel<T> in isOkModels) {
+
+            if (isOkModel.isOK) {
+
+                result.add(isOkModel.data!!)
+
+            } else {
+
+                return IsOkModel(isOK = false)
+            }
+        }
+        return IsOkModel(isOK = true, data = result)
+    }
 }
