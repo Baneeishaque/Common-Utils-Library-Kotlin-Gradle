@@ -5,6 +5,7 @@ import java.lang.IllegalArgumentException
 import java.lang.NumberFormatException
 
 open class EnvironmentVariableForAny<T>(val isAvailable: Boolean, val value: T? = null)
+
 class EnvironmentVariableForWholeNumber(isAvailable: Boolean, value: UInt? = null) :
     EnvironmentVariableForAny<UInt>(isAvailable, value)
 
@@ -12,6 +13,8 @@ class EnvironmentVariableForBoolean(isAvailable: Boolean, value: Boolean? = null
     EnvironmentVariableForAny<Boolean>(isAvailable, value)
 
 object EnvironmentFileOperations {
+
+    @JvmStatic
     fun getEnvironmentVariableValueForTextWithDefaultValue(
 
         dotenv: Dotenv,
@@ -80,14 +83,14 @@ object EnvironmentFileOperations {
 
         dotenv: Dotenv,
         environmentVariableName: String,
-        environmentVariableFormalName: String
+        environmentVariableFormalName: String? = null
 
     ): EnvironmentVariableForWholeNumber {
 
         val result: String = dotenv[environmentVariableName]
         return if (result.isEmpty()) {
 
-            print("Please specify $environmentVariableFormalName (Environment File)")
+            print("Please specify ${environmentVariableFormalName ?: environmentVariableName} (Environment File)")
             EnvironmentVariableForWholeNumber(isAvailable = false)
 
         } else {
@@ -104,6 +107,7 @@ object EnvironmentFileOperations {
         }
     }
 
+    @JvmStatic
     fun isEnvironmentVariablesAreAvailable(environmentVariables: List<EnvironmentVariableForAny<*>>): Boolean {
 
         return environmentVariables.all { it.isAvailable }

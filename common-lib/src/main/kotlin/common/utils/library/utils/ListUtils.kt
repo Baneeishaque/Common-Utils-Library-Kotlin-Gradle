@@ -8,7 +8,7 @@ object ListUtils {
         var result = ""
         list.forEachIndexed { index: Int, listElement: Any? ->
             result += "Option }${index + 1} - ${
-                
+
                 listElement.toString().trim()
             }\n"
         }
