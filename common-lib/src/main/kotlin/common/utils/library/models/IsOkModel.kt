@@ -4,9 +4,34 @@ import kotlinx.serialization.Required
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class IsOkModel<T>(
+open class IsOkModel<T>(
 
-    @Required val isOK: Boolean,
-    val data: T? = null,
+    @Required var isOK: Boolean,
+    var data: T? = null,
     var error: String? = null
 )
+
+@Serializable
+class SuccessBasedOnIsOkModel<T>(
+
+    @Required val ownData: T
+
+) : IsOkModel<T>(
+
+    isOK = true,
+    data = ownData
+)
+
+@Serializable
+class FailureBasedOnIsOkModel<T>(
+
+    @Required val ownError: String
+
+) : IsOkModel<T>(
+
+    isOK = false,
+    error = ownError
+)
+
+@Serializable
+class FailureWithoutExplanationBasedOnIsOkModel<T> : IsOkModel<T>(isOK = false)
