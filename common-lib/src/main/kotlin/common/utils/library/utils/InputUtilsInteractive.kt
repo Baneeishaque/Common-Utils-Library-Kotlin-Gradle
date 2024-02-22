@@ -106,7 +106,7 @@ object InputUtilsInteractive {
 
             } else {
 
-                print(message = "$invalidMessage Or B to back")
+                print(message = "$invalidMessage Or B to back : ")
                 getValidUnsignedIntOrBack(
 
                     inputText = readln(),
@@ -124,7 +124,7 @@ object InputUtilsInteractive {
 
     ): IsOkModel<UInt> {
 
-        println("Enter $dataSpecification ${if (dataIndex == null) "" else "($dataIndex) "}: ")
+        print("Enter $dataSpecification ${if (dataIndex == null) "" else "($dataIndex) "}: ")
         return getValidUnsignedIntOrBack(
 
             inputText = readln(),
@@ -222,7 +222,7 @@ object InputUtilsInteractive {
 
         var localData: T = data
         do {
-            print("Please confirm $dataSpecification (Y/N or B for Back) -> $data : ")
+            print("Please confirm $dataSpecification (Y/N or B for Back) -> $localData : ")
             when (readlnOrNull().toString()) {
 
                 "Y", "" -> {
@@ -271,7 +271,7 @@ object InputUtilsInteractive {
                 getValidUnsignedIntOrBackWithPrompt(
 
                     dataSpecification = dataSpecification,
-                    dataIndex = index.toUInt()
+                    dataIndex = (index + 1).toUInt()
                 )
             if (inputResult.isOK) {
 

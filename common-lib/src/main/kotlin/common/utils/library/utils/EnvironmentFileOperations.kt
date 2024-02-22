@@ -34,8 +34,8 @@ object EnvironmentFileOperations {
 
     ): EnvironmentVariableForWholeNumber {
 
-        val result: String = dotenv[environmentVariableName]
-        return if (result.isEmpty()) {
+        val result: String? = dotenv[environmentVariableName]
+        return if (result.isNullOrEmpty()) {
 
             EnvironmentVariableForWholeNumber(isAvailable = true, value = defaultValue)
 
@@ -47,7 +47,7 @@ object EnvironmentFileOperations {
 
             } catch (exception: NumberFormatException) {
 
-                print("Invalid $environmentVariableFormalName (Environment File)")
+                println("Invalid $environmentVariableFormalName (Environment File)")
                 EnvironmentVariableForWholeNumber(isAvailable = false, value = defaultValue)
             }
         }
@@ -76,7 +76,7 @@ object EnvironmentFileOperations {
 
             } catch (exception: IllegalArgumentException) {
 
-                print("Invalid ${environmentVariableFormalName.ifEmpty { environmentVariableName }} (Environment File)")
+                println("Invalid ${environmentVariableFormalName.ifEmpty { environmentVariableName }} (Environment File)")
                 EnvironmentVariableForBoolean(isAvailable = false, value = defaultValue)
             }
         }
@@ -91,10 +91,10 @@ object EnvironmentFileOperations {
 
     ): EnvironmentVariableForWholeNumber {
 
-        val result: String = dotenv[environmentVariableName]
-        return if (result.isEmpty()) {
+        val result: String? = dotenv[environmentVariableName]
+        return if (result.isNullOrEmpty()) {
 
-            print("Please specify ${environmentVariableFormalName ?: environmentVariableName} (Environment File)")
+            println("Please specify ${environmentVariableFormalName ?: environmentVariableName} (Environment File)")
             EnvironmentVariableForWholeNumber(isAvailable = false)
 
         } else {
@@ -105,7 +105,7 @@ object EnvironmentFileOperations {
 
             } catch (exception: NumberFormatException) {
 
-                print("Invalid $environmentVariableFormalName (Environment File)")
+                println("Invalid $environmentVariableFormalName (Environment File)")
                 EnvironmentVariableForWholeNumber(isAvailable = false)
             }
         }
