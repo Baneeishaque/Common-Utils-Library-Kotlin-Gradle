@@ -4,6 +4,7 @@ import common.utils.library.constants.CommonConstants
 import common.utils.library.enums.TimePartManipulationEnum
 import common.utils.library.enums.TimePartSpecificationEnum
 import common.utils.library.models.IsOkModel
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatter.ofPattern
@@ -776,5 +777,26 @@ object DateTimeUtils {
                 conversionFailureActions.invoke()
             },
         )
+    }
+
+    @JvmStatic
+    fun parseDateWithPatterns(dateString: String, patterns: List<String>): IsOkModel<LocalDate> {
+
+        if (patterns.isEmpty()) {
+
+            return IsOkModel(isOK = false)
+        }
+
+        return try {
+
+            IsOkModel(
+                isOK = true,
+                data = LocalDate.parse(dateString, ofPattern(patterns.first()))
+            )
+
+        } catch (e: DateTimeParseException) {
+
+            parseDateWithPatterns(dateString, patterns.drop(n = 1))
+        }
     }
 }
