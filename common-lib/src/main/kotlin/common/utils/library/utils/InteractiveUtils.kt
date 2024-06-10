@@ -16,4 +16,10 @@ object InteractiveUtils {
 
         println("Invalid option, try again...")
     }
+
+    @JvmStatic
+    fun generateInvalidInputMessage(inputSpecifier: String): String {
+
+        return "No Valid \"$inputSpecifier\" Provided by User"
+    }
 }
