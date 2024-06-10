@@ -148,4 +148,28 @@ object EnvironmentFileOperations {
         }
         return confirmDataResult
     }
+
+    @JvmStatic
+    fun confirmWholeNumberEnvironmentVariableDataOrBackWithPrompt(
+
+        dotenv: Dotenv,
+        environmentVariableName: String,
+        dataSpecification: String
+
+    ): IsOkModel<UInt> {
+
+        return confirmWholeNumberEnvironmentVariableData(
+
+            dotenv = dotenv,
+            environmentVariableName = environmentVariableName,
+            dataCorrectionOperation = fun(): IsOkModel<UInt> {
+
+                return InputUtilsInteractive.getValidUnsignedIntOrBackWithPrompt(
+
+                    dataSpecification = dataSpecification
+                )
+            },
+            dataSpecification = dataSpecification
+        )
+    }
 }
