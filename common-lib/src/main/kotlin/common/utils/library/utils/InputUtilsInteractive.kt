@@ -98,7 +98,7 @@ object InputUtilsInteractive {
                 data = inputText.toUInt()
             )
 
-        } catch (exception: NumberFormatException) {
+        } catch (_: NumberFormatException) {
 
             return if (inputText == "B") {
 

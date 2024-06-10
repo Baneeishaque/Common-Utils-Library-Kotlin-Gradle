@@ -103,7 +103,7 @@ object EnvironmentFileOperations {
 
                 EnvironmentVariableForWholeNumber(isAvailable = true, value = result.toUInt())
 
-            } catch (exception: NumberFormatException) {
+            } catch (_: NumberFormatException) {
 
                 println("Invalid $environmentVariableFormalName (Environment File)")
                 EnvironmentVariableForWholeNumber(isAvailable = false)
