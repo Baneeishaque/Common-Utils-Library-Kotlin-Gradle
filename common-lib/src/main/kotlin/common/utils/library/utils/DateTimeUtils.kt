@@ -704,7 +704,7 @@ object DateTimeUtils {
 
         normalDateTimeInText: String,
         conversionSuccessActions: () -> Unit = fun() {},
-        conversionFailureActions: (DateTimeParseException) -> Unit = fun(_) {}
+        conversionFailureActions: (DateTimeParseException) -> Unit = fun(_: DateTimeParseException) {}
 
     ): IsOkModel<LocalDateTime> {
 
