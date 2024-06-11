@@ -4,12 +4,29 @@ object InteractiveUtils {
 
     @JvmStatic
     fun printErrorMessage(
-        data: String,
-        dateSpecification: String
+
+        message: String,
+        dataSpecification: String? = null,
     ) {
 
-        println("$dateSpecification Error : $data")
+        if (dataSpecification == null) {
+
+            println(message)
+
+        } else {
+            println(
+                constructErrorMessage(
+
+                    dataSpecification = dataSpecification,
+                    message = message
+                )
+            )
+        }
     }
+
+    @JvmStatic
+    fun constructErrorMessage(dataSpecification: String, message: String): String =
+        "$dataSpecification Error : $message"
 
     @JvmStatic
     fun invalidOptionMessage() {

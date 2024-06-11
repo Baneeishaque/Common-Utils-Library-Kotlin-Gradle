@@ -171,8 +171,8 @@ object ApiUtilsCommon {
 
         InteractiveUtils.printErrorMessage(
 
-            data = data,
-            dateSpecification = "Server Execution Error"
+            message = data,
+            dataSpecification = "Server Execution Error"
         )
     }
 

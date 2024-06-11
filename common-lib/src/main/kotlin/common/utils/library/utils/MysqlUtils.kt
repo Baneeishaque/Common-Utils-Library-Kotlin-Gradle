@@ -77,14 +77,14 @@ object MysqlUtils {
     }
 
     @JvmStatic
-    fun dateTimeTextConversion(
+    fun <T> dateTimeTextConversion(
 
-        dateTimeTextConversionFunction: () -> IsOkModel<String>,
+        dateTimeTextConversionFunction: () -> IsOkModel<T>,
         dateTimeTextConversionFunctionFailureActions: () -> Unit = {}
 
-    ): IsOkModel<String> {
+    ): IsOkModel<T> {
 
-        val dateTimeConversionResult: IsOkModel<String> = dateTimeTextConversionFunction.invoke()
+        val dateTimeConversionResult: IsOkModel<T> = dateTimeTextConversionFunction.invoke()
         if (dateTimeConversionResult.isOK) {
 
             return IsOkModel(isOK = true, data = dateTimeConversionResult.data!!)
@@ -93,7 +93,11 @@ object MysqlUtils {
 
             dateTimeTextConversionFunctionFailureActions.invoke()
         }
-        return IsOkModel(isOK = false)
+        return IsOkModel(
+
+            isOK = false,
+            error = dateTimeConversionResult.error
+        )
     }
 
     @JvmStatic

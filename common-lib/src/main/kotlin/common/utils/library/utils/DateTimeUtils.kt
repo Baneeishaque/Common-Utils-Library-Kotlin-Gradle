@@ -799,4 +799,8 @@ object DateTimeUtils {
             parseDateWithPatterns(dateString, patterns.drop(n = 1))
         }
     }
+
+    @JvmStatic
+    fun constructDateErrorMessage(message: String): String =
+        InteractiveUtils.constructErrorMessage(dataSpecification = "Date", message = message)
 }
