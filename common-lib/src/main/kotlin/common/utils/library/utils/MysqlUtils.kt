@@ -87,7 +87,11 @@ object MysqlUtils {
         val dateTimeConversionResult: IsOkModel<T> = dateTimeTextConversionFunction.invoke()
         if (dateTimeConversionResult.isOK) {
 
-            return IsOkModel(isOK = true, data = dateTimeConversionResult.data!!)
+            return IsOkModel(
+
+                isOK = true,
+                data = dateTimeConversionResult.data!!
+            )
 
         } else {
 
