@@ -6,5 +6,5 @@ pluginManagement {
         }
     }
 }
-rootProject.name = "Common-Utils-Library"
+rootProject.name = "Common-Utils-Library-Kotlin-Gradle"
 include(":common-lib")
