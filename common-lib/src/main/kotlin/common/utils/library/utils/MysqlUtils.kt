@@ -1,6 +1,8 @@
 package common.utils.library.utils
 
+import common.utils.library.models.FailureBasedOnIsOkModel
 import common.utils.library.models.IsOkModel
+import common.utils.library.models.SuccessBasedOnIsOkModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -9,10 +11,10 @@ import java.time.format.DateTimeParseException
 object MysqlUtils {
 
     @JvmStatic
-    val mysqlDateTimePattern: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")!!
+    val mysqlDateTimePattern: DateTimeFormatter = DateTimeFormatter.ofPattern(/* pattern = */ "yyyy-MM-dd HH:mm:ss")!!
 
     @JvmStatic
-    val mysqlDatePattern: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")!!
+    val mysqlDatePattern: DateTimeFormatter = DateTimeFormatter.ofPattern(/* pattern = */ "yyyy-MM-dd")!!
 
     @JvmStatic
     fun normalDateTimeTextToMySqlDateTimeText(
@@ -21,20 +23,17 @@ object MysqlUtils {
         conversionSuccessActions: () -> Unit = fun() {},
         conversionFailureActions: () -> Unit = fun() {}
 
-    ): IsOkModel<String> {
+    ): IsOkModel<String> = try {
 
-        return try {
+        val result: String = LocalDateTime.parse(normalDateTimeText, DateTimeUtils.normalDateTimePattern)
+            .format(mysqlDateTimePattern)
+        conversionSuccessActions.invoke()
+        SuccessBasedOnIsOkModel(ownData = result)
 
-            val result: String = LocalDateTime.parse(normalDateTimeText, DateTimeUtils.normalDateTimePattern)
-                .format(mysqlDateTimePattern)
-            conversionSuccessActions.invoke()
-            IsOkModel(isOK = true, data = result)
+    } catch (e: DateTimeParseException) {
 
-        } catch (e: DateTimeParseException) {
-
-            conversionFailureActions.invoke()
-            IsOkModel(isOK = false, data = e.localizedMessage)
-        }
+        conversionFailureActions.invoke()
+        FailureBasedOnIsOkModel(ownError = e.localizedMessage)
     }
 
     @JvmStatic
@@ -44,37 +43,29 @@ object MysqlUtils {
         conversionSuccessActions: () -> Unit = fun() {},
         conversionFailureActions: () -> Unit = fun() {}
 
-    ): IsOkModel<String> {
+    ): IsOkModel<String> = try {
 
-        return try {
+        val result: String = LocalDateTime.parse(mySqlDateTimeText, mysqlDateTimePattern)
+            .format(DateTimeUtils.normalDateTimePattern)
+        conversionSuccessActions.invoke()
+        SuccessBasedOnIsOkModel(ownData = result)
 
-            val result: String = LocalDateTime.parse(mySqlDateTimeText, mysqlDateTimePattern)
-                .format(DateTimeUtils.normalDateTimePattern)
-            conversionSuccessActions.invoke()
-            IsOkModel(isOK = true, data = result)
+    } catch (e: DateTimeParseException) {
 
-        } catch (e: DateTimeParseException) {
-
-            conversionFailureActions.invoke()
-            IsOkModel(isOK = false, data = e.localizedMessage)
-        }
+        conversionFailureActions.invoke()
+        FailureBasedOnIsOkModel(ownError = e.localizedMessage)
     }
 
     @JvmStatic
     fun mySqlDateTimeTextToDateTime(
 
-        mySqlDateTimeText: String,
-        conversionSuccessActions: () -> Unit = fun() {},
-        conversionFailureActions: () -> Unit = fun() {}
+        mySqlDateTimeText: String
 
-    ): IsOkModel<LocalDateTime> {
+    ): IsOkModel<LocalDateTime> = DateTimeUtils.dateTimeInTextToDateTime(
 
-        return DateTimeUtils.dateTimeInTextToDateTime(
-
-            dateTimeInText = mySqlDateTimeText,
-            dateTimeTextPattern = mysqlDateTimePattern
-        )
-    }
+        dateTimeInText = mySqlDateTimeText,
+        dateTimeTextPattern = mysqlDateTimePattern
+    )
 
     @JvmStatic
     fun <T> dateTimeTextConversion(
@@ -87,36 +78,31 @@ object MysqlUtils {
         val dateTimeConversionResult: IsOkModel<T> = dateTimeTextConversionFunction.invoke()
         if (dateTimeConversionResult.isOK) {
 
-            return IsOkModel(
+            return SuccessBasedOnIsOkModel(
 
-                isOK = true,
-                data = dateTimeConversionResult.data!!
+                ownData = dateTimeConversionResult.data!!
             )
 
         } else {
 
             dateTimeTextConversionFunctionFailureActions.invoke()
         }
-        return IsOkModel(
+        return FailureBasedOnIsOkModel(
 
-            isOK = false,
-            error = dateTimeConversionResult.error
+            ownError = dateTimeConversionResult.error!!
         )
     }
 
     @JvmStatic
-    fun normalDateTextToMySqlDateText(normalDateText: String): IsOkModel<String> {
+    fun normalDateTextToMySqlDateText(normalDateText: String): IsOkModel<String> = try {
 
-        return try {
+        val result: String =
+            LocalDate.parse(normalDateText, DateTimeUtils.normalDatePattern).format(mysqlDatePattern)
+        SuccessBasedOnIsOkModel(ownData = result)
 
-            val result: String =
-                LocalDate.parse(normalDateText, DateTimeUtils.normalDatePattern).format(mysqlDatePattern)
-            IsOkModel(isOK = true, data = result)
+    } catch (e: DateTimeParseException) {
 
-        } catch (e: DateTimeParseException) {
-
-            IsOkModel(isOK = false, data = e.localizedMessage)
-        }
+        FailureBasedOnIsOkModel(ownError = e.localizedMessage)
     }
 
     //TODO : Date to MySQL Date String

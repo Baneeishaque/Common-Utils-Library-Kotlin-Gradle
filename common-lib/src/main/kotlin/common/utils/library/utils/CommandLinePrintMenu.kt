@@ -2,9 +2,13 @@ package common.utils.library.utils
 
 class CommandLinePrintMenu : CommandLinePrintMenuInterface {
 
-    override fun printMenuFromListOfCommands(listOfCommands: List<String>, promptWord: String) {
+    override fun printMenuFromListOfCommands(
 
-        listOfCommands.forEach { command ->
+        listOfCommands: List<String>,
+        promptWord: String
+    ) {
+
+        listOfCommands.forEach { command: String ->
 
             if (promptWord.isEmpty() || (!(command.contains(promptWord, ignoreCase = true)))) {
 

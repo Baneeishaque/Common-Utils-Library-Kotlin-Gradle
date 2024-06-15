@@ -1,10 +1,10 @@
 package common.utils.library.utils
 
 import common.utils.library.models.ChooseByIdResult
-import common.utils.library.models.IsOkModel
+import common.utils.library.models.FailureWithoutExplanationBasedOnIsOkModel
 import java.util.*
 
-object ChooseUtils {
+object ChooseUtilsInteractive {
 
     @JvmStatic
     fun <T> chooseById(
@@ -27,10 +27,17 @@ object ChooseUtils {
             try {
 
                 idInput = reader.nextInt().toUInt()
-                if (idInput == 0u) return ChooseByIdResult(isOkWithData = IsOkModel(isOK = false))
+                if (idInput == 0u) {
+
+                    return ChooseByIdResult(
+
+                        isOkWithData = FailureWithoutExplanationBasedOnIsOkModel()
+                    )
+                }
 
                 return ChooseByIdResult(
-                    isOkWithData = ApiUtilsCommon.makeApiRequestWithOptionalRetries(
+
+                    isOkWithData = ApiUtilsInteractiveCommon.makeApiRequestWithOptionalRetries(
 
                         apiCallFunction = apiCallFunction,
                         isConsoleMode = isConsoleMode,

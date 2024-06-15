@@ -8,7 +8,8 @@ open class IsOkModel<T>(
 
     @Required var isOK: Boolean,
     var data: T? = null,
-    var error: String? = null
+    var error: String? = null,
+    val errorSpecifier: String? = null,
 )
 
 @Serializable
@@ -20,6 +21,12 @@ class SuccessBasedOnIsOkModel<T>(
 
     isOK = true,
     data = ownData
+)
+
+@Serializable
+class SuccessWithoutDataBasedOnIsOkModel<T> : IsOkModel<T>(
+
+    isOK = true
 )
 
 @Serializable

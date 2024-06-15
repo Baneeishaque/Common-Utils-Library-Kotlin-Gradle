@@ -4,6 +4,10 @@ class CommandLinePrintMenuWithEnterPrompt(private val commandLinePrintMenu: Comm
 
     fun printMenuWithEnterPromptFromListOfCommands(listOfCommands: List<String>) {
 
-        commandLinePrintMenu.printMenuFromListOfCommands(listOfCommands = listOfCommands, promptWord = "Enter")
+        commandLinePrintMenu.printMenuFromListOfCommands(
+
+            listOfCommands = listOfCommands,
+            promptWord = "Enter"
+        )
     }
 }

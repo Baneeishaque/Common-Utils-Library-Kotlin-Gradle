@@ -4,6 +4,10 @@ class CommandLinePrintMenuWithBackPrompt(private val commandLinePrintMenu: Comma
 
     fun printMenuWithBackPromptFromListOfCommands(listOfCommands: List<String>) {
 
-        commandLinePrintMenu.printMenuFromListOfCommands(listOfCommands = listOfCommands, promptWord = "Back")
+        commandLinePrintMenu.printMenuFromListOfCommands(
+
+            listOfCommands = listOfCommands,
+            promptWord = "Back"
+        )
     }
 }

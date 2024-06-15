@@ -4,6 +4,10 @@ class CommandLinePrintMenuWithContinuePrompt(private val commandLinePrintMenu: C
 
     fun printMenuWithContinuePromptFromListOfCommands(listOfCommands: List<String>) {
 
-        commandLinePrintMenu.printMenuFromListOfCommands(listOfCommands = listOfCommands, promptWord = "Continue")
+        commandLinePrintMenu.printMenuFromListOfCommands(
+
+            listOfCommands = listOfCommands,
+            promptWord = "Continue"
+        )
     }
 }

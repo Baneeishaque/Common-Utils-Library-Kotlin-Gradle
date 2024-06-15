@@ -6,7 +6,7 @@ import kotlinx.cli.Subcommand
 import kotlinx.cli.optional
 
 @OptIn(ExperimentalCli::class)
-abstract class EnhancedSubCommand(
+abstract class SubCommandEnhanced(
 
     name: String,
     actionDescription: String

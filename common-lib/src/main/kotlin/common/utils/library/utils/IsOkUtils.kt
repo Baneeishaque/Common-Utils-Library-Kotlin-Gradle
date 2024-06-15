@@ -5,38 +5,18 @@ import common.utils.library.models.IsOkModel
 object IsOkUtils {
 
     @JvmStatic
-    fun <T> printIsOkObject(
-
-        isOkModel: IsOkModel<T>
-
-    ) = handleIsOkObject(
-
-        isOkModel = isOkModel,
-        dataOperation = fun(data: T) {
-
-            println(data)
-        },
-        errorOperation = fun(error: String) {
-
-            println(error)
-        }
-    )
-
-    @JvmStatic
     fun <T> handleIsOkObject(
 
         isOkModel: IsOkModel<T>,
         dataOperation: (T) -> Unit,
         errorOperation: (String) -> Unit
-    ) {
-        if (isOkModel.isOK) {
+    ): Unit = if (isOkModel.isOK) {
 
-            dataOperation.invoke(isOkModel.data!!)
+        dataOperation.invoke(isOkModel.data!!)
 
-        } else {
+    } else {
 
-            errorOperation.invoke(isOkModel.error!!)
-        }
+        errorOperation.invoke(isOkModel.error!!)
     }
 
     @JvmStatic
@@ -44,22 +24,19 @@ object IsOkUtils {
 
         isOkModel: IsOkModel<T>
 
-    ): Boolean {
-
-        return !isOkModel.isOK
-    }
+    ): Boolean = !isOkModel.isOK
 
     @JvmStatic
     fun <T> isOkHandler(
 
         isOkModel: IsOkModel<*>,
-        data: T,
+        dataOnFailure: T? = null,
         successActions: () -> T,
         failureActions: () -> Unit = fun() {}
 
-    ): T {
+    ): T? {
 
-        var localData: T = data
+        var localData: T? = dataOnFailure
         if (isOkModel.isOK) {
 
             localData = successActions.invoke()
@@ -83,7 +60,7 @@ object IsOkUtils {
 
             } else {
 
-                return IsOkModel(isOK = false)
+                return IsOkModel(isOK = false, error = isOkModel.error, errorSpecifier = isOkModel.errorSpecifier)
             }
         }
         return IsOkModel(isOK = true, data = result)

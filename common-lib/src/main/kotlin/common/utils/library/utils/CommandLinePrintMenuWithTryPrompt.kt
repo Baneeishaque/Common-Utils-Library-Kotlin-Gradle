@@ -4,6 +4,10 @@ class CommandLinePrintMenuWithTryPrompt(private val commandLinePrintMenu: Comman
 
     fun printMenuWithTryPromptFromListOfCommands(listOfCommands: List<String>) {
 
-        commandLinePrintMenu.printMenuFromListOfCommands(listOfCommands = listOfCommands, promptWord = "Try")
+        commandLinePrintMenu.printMenuFromListOfCommands(
+
+            listOfCommands = listOfCommands,
+            promptWord = "Try"
+        )
     }
 }

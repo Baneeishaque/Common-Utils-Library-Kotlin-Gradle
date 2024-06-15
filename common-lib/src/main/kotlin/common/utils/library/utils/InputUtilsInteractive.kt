@@ -1,27 +1,14 @@
 package common.utils.library.utils
 
+import common.utils.library.models.FailureBasedOnIsOkModel
+import common.utils.library.models.FailureWithoutExplanationBasedOnIsOkModel
 import common.utils.library.models.IsOkModel
+import common.utils.library.models.SuccessBasedOnIsOkModel
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeParseException
 
 object InputUtilsInteractive {
-
-    private fun getValidFloat(
-
-        inputText: String
-
-    ): Pair<Boolean, Float?> {
-
-        return try {
-
-            Pair(true, inputText.toFloat())
-
-        } catch (exception: NumberFormatException) {
-
-            Pair(false, null)
-        }
-    }
 
     @JvmStatic
     fun getValidFloat(
@@ -31,7 +18,7 @@ object InputUtilsInteractive {
 
     ): Float {
 
-        val getValidFloatResult: Pair<Boolean, Float?> = getValidFloat(inputText = inputText)
+        val getValidFloatResult: Pair<Boolean, Float?> = InputUtils.getValidFloat(inputText = inputText)
         if (getValidFloatResult.first) {
 
             return getValidFloatResult.second!!
@@ -39,7 +26,11 @@ object InputUtilsInteractive {
         } else {
 
             println(invalidMessage)
-            return getValidFloat(inputText = readln(), invalidMessage = invalidMessage)
+            return getValidFloat(
+
+                inputText = readln(),
+                invalidMessage = invalidMessage
+            )
         }
     }
 
@@ -51,7 +42,7 @@ object InputUtilsInteractive {
 
     ): Float {
 
-        val getValidFloatResult: Pair<Boolean, Float?> = getValidFloat(inputText = inputText)
+        val getValidFloatResult: Pair<Boolean, Float?> = InputUtils.getValidFloat(inputText = inputText)
         if (getValidFloatResult.first) {
 
             return getValidFloatResult.second!!
@@ -59,7 +50,11 @@ object InputUtilsInteractive {
         } else {
 
             print(constructInvalidMessage.invoke(inputText))
-            return getValidFloat(inputText = readln(), constructInvalidMessage = constructInvalidMessage)
+            return getValidFloat(
+
+                inputText = readln(),
+                constructInvalidMessage = constructInvalidMessage
+            )
         }
     }
 
@@ -69,48 +64,50 @@ object InputUtilsInteractive {
         inputText: String,
         invalidMessage: String = "Please Enter Valid Unsigned Integer"
 
-    ): UInt {
+    ): UInt = try {
 
-        return try {
+        inputText.toUInt()
 
-            inputText.toUInt()
+    } catch (exception: NumberFormatException) {
 
-        } catch (exception: NumberFormatException) {
+        print(message = invalidMessage)
+        getValidUnsignedInt(
 
-            print(message = invalidMessage)
-            getValidUnsignedInt(inputText = readln(), invalidMessage = invalidMessage)
-        }
+            inputText = readln(),
+            invalidMessage = invalidMessage
+        )
     }
 
     @JvmStatic
     fun getValidUnsignedIntOrBack(
 
         inputText: String,
-        invalidMessage: String = "Please Enter Valid Unsigned Integer"
+        invalidMessage: String = "Please Enter Valid Unsigned Integer",
+        backIndicator: String = "B"
 
     ): IsOkModel<UInt> {
 
         try {
 
-            return IsOkModel(
+            return SuccessBasedOnIsOkModel(
 
-                isOK = true,
-                data = inputText.toUInt()
+                ownData = inputText.toUInt()
             )
 
         } catch (_: NumberFormatException) {
 
-            return if (inputText == "B") {
+            return if (inputText == backIndicator) {
 
-                IsOkModel(isOK = false)
+                FailureWithoutExplanationBasedOnIsOkModel()
 
             } else {
 
-                print(message = "$invalidMessage Or B to back : ")
+                print(message = "$invalidMessage Or $backIndicator to back : ")
                 getValidUnsignedIntOrBack(
 
                     inputText = readln(),
-                    invalidMessage = invalidMessage
+                    invalidMessage = invalidMessage,
+                    backIndicator = backIndicator
                 )
             }
         }
@@ -120,15 +117,17 @@ object InputUtilsInteractive {
     fun getValidUnsignedIntOrBackWithPrompt(
 
         dataSpecification: String,
-        dataIndex: UInt? = null
+        dataIndex: UInt? = null,
+        backIndicator: String = "B"
 
     ): IsOkModel<UInt> {
 
-        print("Enter $dataSpecification ${if (dataIndex == null) "" else "($dataIndex) "}: ")
+        print("Enter $dataSpecification ${if (dataIndex == null) "" else "($dataIndex) "} Or $backIndicator to back : ")
         return getValidUnsignedIntOrBack(
 
             inputText = readln(),
-            invalidMessage = "Please Enter Valid $dataSpecification"
+            invalidMessage = "Please Enter Valid $dataSpecification",
+            backIndicator = backIndicator
         )
     }
 
@@ -230,29 +229,32 @@ object InputUtilsInteractive {
                 }
 
                 "N" -> {
-                    val localDataResult = dataCorrectionFunction.invoke()
+                    val localDataResult: IsOkModel<T> = dataCorrectionFunction.invoke()
                     if (localDataResult.isOK) {
 
                         localData = localDataResult.data!!
 
                     } else {
 
-                        return IsOkModel(isOK = false)
+                        if (localDataResult.error != null) {
+
+                            return FailureBasedOnIsOkModel(ownError = localDataResult.error!!)
+                        }
+                        return FailureWithoutExplanationBasedOnIsOkModel()
                     }
                 }
 
                 "B" -> {
-                    return IsOkModel(isOK = false)
+                    return FailureWithoutExplanationBasedOnIsOkModel()
                 }
 
-                else -> InteractiveUtils.invalidOptionMessage()
+                else -> ErrorUtilsInteractive.printInvalidOptionMessage()
             }
         } while (true)
 
-        return IsOkModel(
+        return SuccessBasedOnIsOkModel(
 
-            isOK = true,
-            data = localData
+            ownData = localData
         )
     }
 
@@ -271,7 +273,7 @@ object InputUtilsInteractive {
                 getValidUnsignedIntOrBackWithPrompt(
 
                     dataSpecification = dataSpecification,
-                    dataIndex = (index + 1).toUInt()
+                    dataIndex = (index + 1).toUInt(),
                 )
             if (inputResult.isOK) {
 
@@ -279,9 +281,9 @@ object InputUtilsInteractive {
 
             } else {
 
-                return IsOkModel(isOK = false)
+                return FailureWithoutExplanationBasedOnIsOkModel()
             }
         }
-        return IsOkModel(isOK = true, data = inputs)
+        return SuccessBasedOnIsOkModel(ownData = inputs)
     }
 }

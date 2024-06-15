@@ -12,23 +12,19 @@ object MysqlUtilsInteractive {
         dateTimeTextConversionFunction: () -> IsOkModel<T>,
         dateTimeTextConversionFunctionFailureActions: () -> Unit = {}
 
-    ): IsOkModel<T> {
+    ): IsOkModel<T> = MysqlUtils.dateTimeTextConversion(
 
-        return MysqlUtils.dateTimeTextConversion<T>(
+        dateTimeTextConversionFunction = dateTimeTextConversionFunction,
+        dateTimeTextConversionFunctionFailureActions = {
 
-            dateTimeTextConversionFunction = dateTimeTextConversionFunction,
-            dateTimeTextConversionFunctionFailureActions = {
-
-                DateTimeInteractiveUtils.printDateErrorMessage(message = inputDateTimeText)
-                dateTimeTextConversionFunctionFailureActions.invoke()
-            },
-        )
-    }
+            DateTimeInteractiveUtils.printDateErrorMessage(message = inputDateTimeText)
+            dateTimeTextConversionFunctionFailureActions.invoke()
+        },
+    )
 
     @JvmStatic
-    fun normalDateTimeTextToMySqlDateTimeTextWithMessage(inputDateTimeText: String): IsOkModel<String> {
-
-        return this.dateTimeTextConversionWithMessage<String>(
+    fun normalDateTimeTextToMySqlDateTimeTextWithMessage(inputDateTimeText: String): IsOkModel<String> =
+        this.dateTimeTextConversionWithMessage(
 
             inputDateTimeText = inputDateTimeText,
             dateTimeTextConversionFunction = fun(): IsOkModel<String> {
@@ -39,12 +35,10 @@ object MysqlUtilsInteractive {
                 )
             }
         )
-    }
 
     @JvmStatic
-    fun mySqlDateTimeTextToNormalDateTimeTextWithMessage(mySqlDateTimeText: String): IsOkModel<String> {
-
-        return this.dateTimeTextConversionWithMessage<String>(
+    fun mySqlDateTimeTextToNormalDateTimeTextWithMessage(mySqlDateTimeText: String): IsOkModel<String> =
+        this.dateTimeTextConversionWithMessage(
 
             inputDateTimeText = mySqlDateTimeText,
             dateTimeTextConversionFunction = fun(): IsOkModel<String> {
@@ -52,12 +46,10 @@ object MysqlUtilsInteractive {
                 return MysqlUtils.mySqlDateTimeTextToNormalDateTimeText(mySqlDateTimeText = mySqlDateTimeText)
             },
         )
-    }
 
     @JvmStatic
-    fun mySqlDateTimeTextToDateTimeWithMessage(mySqlDateTimeText: String): IsOkModel<LocalDateTime> {
-
-        return this.dateTimeTextConversionWithMessage<LocalDateTime>(
+    fun mySqlDateTimeTextToDateTimeWithMessage(mySqlDateTimeText: String): IsOkModel<LocalDateTime> =
+        this.dateTimeTextConversionWithMessage(
 
             inputDateTimeText = mySqlDateTimeText,
             dateTimeTextConversionFunction = fun(): IsOkModel<LocalDateTime> {
@@ -65,5 +57,4 @@ object MysqlUtilsInteractive {
                 return MysqlUtils.mySqlDateTimeTextToDateTime(mySqlDateTimeText = mySqlDateTimeText)
             },
         )
-    }
 }

@@ -1,7 +1,7 @@
 package common.utils.library.models
 
-class EnvironmentFileEntryModel<E : Enum<E>>(
+open class EnvironmentFileEntryModel<E : Enum<*>>(
 
-    val entryName: E,
-    val entryFormalName: String? = null
+    open val entry: E,
+    open val formalName: String? = null
 )

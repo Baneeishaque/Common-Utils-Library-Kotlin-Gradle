@@ -3,16 +3,17 @@ package common.utils.library.cli.sub_commands
 import common.utils.library.enums.CommandLineApiMethodCommonArgumentsEnum
 import common.utils.library.enums.EnvironmentFileEntryCommonEnum
 import common.utils.library.utils.ApiUtilsCommon
+import common.utils.library.utils.ApiUtilsInteractiveCommon
 import io.github.cdimascio.dotenv.Dotenv
 
-abstract class SubCommandWithUserIdAndUsernameAsArguments(
+abstract class SubCommandEnhancedWithUserIdAndUsernameAsArguments(
 
     name: String,
     actionDescription: String,
     override val isDevelopmentMode: Boolean,
     override val dotEnv: Dotenv
 
-) : SubCommandWithUserIdAsArgument(
+) : SubCommandEnhancedWithUserIdAsArgument(
 
     name = name,
     actionDescription = actionDescription,
@@ -43,7 +44,7 @@ abstract class SubCommandWithUserIdAndUsernameAsArguments(
             val envUsername = dotEnv[EnvironmentFileEntryCommonEnum.USER_NAME.name]
             if (envUsername.isNullOrEmpty()) {
 
-                ApiUtilsCommon.printMissingArgumentMessageForApi(argumentSummary = "username of the user")
+                ApiUtilsInteractiveCommon.printMissingArgumentMessageForApi(argumentSummary = "username of the user")
 
             } else {
 
