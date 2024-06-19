@@ -10,11 +10,20 @@ object JsonFileUtils {
 
     @OptIn(ExperimentalSerializationApi::class)
     @JvmStatic
-    inline fun <reified T> writeJsonFile(fileName: String, data: T) {
+    inline fun <reified T> writeJsonFile(
+
+        fileName: String,
+        data: T,
+        isPrettyPrint: Boolean = true
+    ) {
 
         FileOutputStream(File(fileName)).use { fileOutputStream: FileOutputStream ->
 
-            Json.encodeToStream(data, fileOutputStream)
+            val prettyJson = Json {
+
+                prettyPrint = isPrettyPrint
+            }
+            prettyJson.encodeToStream(data, fileOutputStream)
         }
     }
 }
