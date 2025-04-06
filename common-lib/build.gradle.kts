@@ -30,7 +30,7 @@ dependencies {
     implementation(dependencyNotation = platform(notation = "org.jetbrains.kotlin:kotlin-bom"))
 
     implementation(dependencyNotation = "org.jetbrains.kotlinx:kotlinx-cli:0.3.6")
-    implementation(dependencyNotation = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation(dependencyNotation = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
 
     implementation(dependencyNotation = "io.github.cdimascio:dotenv-kotlin:6.4.2")
     implementation(dependencyNotation = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
